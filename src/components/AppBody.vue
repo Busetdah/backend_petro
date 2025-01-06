@@ -13,7 +13,7 @@ const warning = 30
 
 const fetchMotorData = async () => {
   try {
-    const response = await axios.get('http://localhost:8000/api/motor_conveyor')
+    const response = await axios.get('https://be.robofuji.smartrobofuji.site/api/motor_conveyor')
     dataMotor.value = response.data.data
     console.log(dataMotor.value)
   } catch (error) {
@@ -23,7 +23,7 @@ const fetchMotorData = async () => {
 
 const fetchPalletData = async () => {
   try {
-    const response = await axios.get('http://localhost:8000/api/pallet_dispenser')
+    const response = await axios.get('https://be.robofuji.smartrobofuji.site/api/pallet_dispenser')
     dataPallet.value = response.data.data
   } catch (error) {
     console.error('Error fetching pallet dispenser data:', error)
@@ -32,7 +32,7 @@ const fetchPalletData = async () => {
 
 const fetchSafConvData = async () => {
   try {
-    const response = await axios.get('http://localhost:8000/api/safety_conveyor')
+    const response = await axios.get('https://be.robofuji.smartrobofuji.site/api/safety_conveyor')
     dataSafConv.value = response.data.data
   } catch (error) {
     console.error('Error fetching pallet dispenser data:', error)
@@ -41,7 +41,7 @@ const fetchSafConvData = async () => {
 
 const fetchRollData = async () => {
   try {
-    const response = await axios.get('http://localhost:8000/api/roll')
+    const response = await axios.get('https://be.robofuji.smartrobofuji.site/api/roll')
     dataRoll.value = response.data.data
   } catch (error) {
     console.error('Error fetching pallet dispenser data:', error)
@@ -50,7 +50,7 @@ const fetchRollData = async () => {
 
 const fetchArmData = async () => {
   try {
-    const response = await axios.get('http://localhost:8000/api/arm_robot')
+    const response = await axios.get('https://be.robofuji.smartrobofuji.site/api/arm_robot')
     dataArm.value = response.data.data
   } catch (error) {
     console.error('Error fetching pallet dispenser data:', error)

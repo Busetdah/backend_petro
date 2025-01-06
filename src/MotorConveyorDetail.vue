@@ -296,7 +296,9 @@ const dataMotor4 = ref([])
 
 const fetchMotor1Data = async () => {
   try {
-    const response = await axios.get('http://localhost:8000/api/motor_conveyor_detail_motor1')
+    const response = await axios.get(
+      'https://be.robofuji.smartrobofuji.site/api/motor_conveyor_detail_motor1',
+    )
     dataMotor1.value = response.data.data
     const timeLabels = dataMotor1.value
       .slice() // Membuat salinan array agar tidak merusak data asli
@@ -327,7 +329,9 @@ const fetchMotor1Data = async () => {
 
 const fetchMotor2Data = async () => {
   try {
-    const response = await axios.get('http://localhost:8000/api/motor_conveyor_detail_motor2')
+    const response = await axios.get(
+      'https://be.robofuji.smartrobofuji.site/api/motor_conveyor_detail_motor2',
+    )
     dataMotor2.value = response.data.data
     const timeLabels = dataMotor2.value
       .slice() // Membuat salinan array agar tidak merusak data asli
@@ -358,7 +362,9 @@ const fetchMotor2Data = async () => {
 
 const fetchMotor3Data = async () => {
   try {
-    const response = await axios.get('http://localhost:8000/api/motor_conveyor_detail_motor3')
+    const response = await axios.get(
+      'https://be.robofuji.smartrobofuji.site/api/motor_conveyor_detail_motor3',
+    )
     dataMotor3.value = response.data.data
     const timeLabels = dataMotor3.value
       .slice() // Membuat salinan array agar tidak merusak data asli
@@ -388,7 +394,9 @@ const fetchMotor3Data = async () => {
 }
 const fetchMotor4Data = async () => {
   try {
-    const response = await axios.get('http://localhost:8000/api/motor_conveyor_detail_motor4')
+    const response = await axios.get(
+      'https://be.robofuji.smartrobofuji.site/api/motor_conveyor_detail_motor4',
+    )
     dataMotor4.value = response.data.data
     const timeLabels = dataMotor4.value
       .slice() // Membuat salinan array agar tidak merusak data asli
