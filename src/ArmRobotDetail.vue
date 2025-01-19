@@ -301,15 +301,14 @@ const fetchMotor1Data = async () => {
     )
     dataMotor1.value = response.data.data
     const timeLabels = dataMotor1.value
-      .slice() // Membuat salinan array agar tidak merusak data asli
-      .reverse() // Membalik urutan data (dari terlama ke terbaru)
+      .slice()
+      .reverse()
       .map((item) => {
-        // Konversi ke objek Date
         const date = new Date(item.created_at)
         if (isNaN(date)) {
-          return 'Invalid Date' // Penanganan jika nilai tidak valid
+          return 'Invalid Date'
         }
-        // Format waktu menjadi: YYYY-MM-DD HH:mm:ss
+
         return `${date.toISOString().split('T')[0]}\n${date.toTimeString().split(' ')[0]}`
       })
     const temperatureData = dataMotor1.value.map((item) => parseFloat(item.temperature)).reverse()
@@ -334,15 +333,14 @@ const fetchMotor2Data = async () => {
     )
     dataMotor2.value = response.data.data
     const timeLabels = dataMotor2.value
-      .slice() // Membuat salinan array agar tidak merusak data asli
-      .reverse() // Membalik urutan data (dari terlama ke terbaru)
+      .slice()
+      .reverse()
       .map((item) => {
-        // Konversi ke objek Date
         const date = new Date(item.created_at)
         if (isNaN(date)) {
-          return 'Invalid Date' // Penanganan jika nilai tidak valid
+          return 'Invalid Date'
         }
-        // Format waktu menjadi: YYYY-MM-DD HH:mm:ss
+
         return `${date.toISOString().split('T')[0]}\n${date.toTimeString().split(' ')[0]}`
       })
     const temperatureData = dataMotor2.value.map((item) => parseFloat(item.temperature)).reverse()
@@ -367,15 +365,14 @@ const fetchMotor3Data = async () => {
     )
     dataMotor3.value = response.data.data
     const timeLabels = dataMotor3.value
-      .slice() // Membuat salinan array agar tidak merusak data asli
-      .reverse() // Membalik urutan data (dari terlama ke terbaru)
+      .slice()
+      .reverse()
       .map((item) => {
-        // Konversi ke objek Date
         const date = new Date(item.created_at)
         if (isNaN(date)) {
-          return 'Invalid Date' // Penanganan jika nilai tidak valid
+          return 'Invalid Date'
         }
-        // Format waktu menjadi: YYYY-MM-DD HH:mm:ss
+
         return `${date.toISOString().split('T')[0]}\n${date.toTimeString().split(' ')[0]}`
       })
     const temperatureData = dataMotor3.value.map((item) => parseFloat(item.temperature)).reverse()
@@ -394,20 +391,17 @@ const fetchMotor3Data = async () => {
 }
 const fetchMotor4Data = async () => {
   try {
-    const response = await axios.get(
-      'https://be.robofuji.smartrobofuji.site/api/arm_robot_detail_motor4',
-    )
+    const response = await axios.get('http://127.0.0.1:8000/api/arm_robot_detail_motor4')
     dataMotor4.value = response.data.data
     const timeLabels = dataMotor4.value
-      .slice() // Membuat salinan array agar tidak merusak data asli
-      .reverse() // Membalik urutan data (dari terlama ke terbaru)
+      .slice()
+      .reverse()
       .map((item) => {
-        // Konversi ke objek Date
         const date = new Date(item.created_at)
         if (isNaN(date)) {
-          return 'Invalid Date' // Penanganan jika nilai tidak valid
+          return 'Invalid Date'
         }
-        // Format waktu menjadi: YYYY-MM-DD HH:mm:ss
+
         return `${date.toISOString().split('T')[0]}\n${date.toTimeString().split(' ')[0]}`
       })
     const temperatureData = dataMotor4.value.map((item) => parseFloat(item.temperature)).reverse()

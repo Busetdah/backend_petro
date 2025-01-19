@@ -1,11 +1,12 @@
 <script setup>
 import AppNavbar from './components/AppNavbar.vue'
-// import AppBody from './components/AppBody.vue'
+import NavigationButton from './components/NavigationButton.vue'
 </script>
 
 <template>
   <AppNavbar />
   <router-view />
+  <NavigationButton />
 </template>
 
 <style scoped></style>

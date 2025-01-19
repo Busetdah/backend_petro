@@ -98,7 +98,12 @@ onUnmounted(() => {
 
 <template>
   <section>
-    <img class="palletizer" src="../assets/palletizer.png" alt="" />
+    <div>
+      <video autoplay muted loop playsinline class="background-video">
+        <source src="../assets/background.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
     <section>
       <div class="box">
         <div class="title">Safety Camera Detection</div>
@@ -288,6 +293,13 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+.background-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 97vw;
+  height: 85vh;
+}
 section {
   display: flex;
   position: relative;

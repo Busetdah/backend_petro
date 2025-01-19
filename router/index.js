@@ -7,6 +7,8 @@ import MotorConveyorDetail from '@/MotorConveyorDetail.vue'
 import SafetyConveyorDetail from '@/SafetyConveyorDetail.vue'
 import PalleteDispenserDetail from '@/PalleteDispenserDetail.vue'
 import ArmRobotDetail from '@/ArmRobotDetail.vue'
+import HistoryPage from '@/HistoryPage.vue'
+import AlarmPage from '@/AlarmPage.vue'
 
 const routes = [
   {
@@ -38,6 +40,16 @@ const routes = [
     path: '/detailarmrobot',
     name: 'ArmRobotDetail',
     component: ArmRobotDetail, // Halaman lain
+  },
+  {
+    path: '/historypage',
+    name: 'HistoryPage',
+    component: HistoryPage, // Halaman lain
+  },
+  {
+    path: '/alarmpage',
+    name: 'AlarmPage',
+    component: AlarmPage, // Halaman lain
   },
 ]
 
