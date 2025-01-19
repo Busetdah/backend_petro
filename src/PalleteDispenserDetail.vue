@@ -138,8 +138,7 @@ const dataRight = ref([])
 const fetchLeftData = async () => {
   try {
     const response = await axios.get(
-      // 'https://be.robofuji.smartrobofuji.site/api/pallete_dispenser_detail_Left',
-      'http://127.0.0.1:8000/api/pallete_dispenser_detail_left',
+      'https://be.robofuji.smartrobofuji.site/api/pallete_dispenser_detail_left',
     )
     dataLeft.value = response.data.data
     const timeLabels = dataLeft.value
@@ -172,8 +171,7 @@ const fetchLeftData = async () => {
 const fetchRightData = async () => {
   try {
     const response = await axios.get(
-      // 'https://be.robofuji.smartrobofuji.site/api/pallete_dispenser_detail_Right',
-      'http://127.0.0.1:8000/api/pallete_dispenser_detail_right',
+      'https://be.robofuji.smartrobofuji.site/api/pallete_dispenser_detail_right',
     )
     dataRight.value = response.data.data
     const timeLabels = dataRight.value
