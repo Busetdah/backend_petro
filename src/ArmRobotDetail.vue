@@ -391,7 +391,9 @@ const fetchMotor3Data = async () => {
 }
 const fetchMotor4Data = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/arm_robot_detail_motor4')
+    const response = await axios.get(
+      'https://be.robofuji.smartrobofuji.site/api/arm_robot_detail_motor4',
+    )
     dataMotor4.value = response.data.data
     const timeLabels = dataMotor4.value
       .slice()
