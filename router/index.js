@@ -1,6 +1,5 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 
-// Import halaman-halaman Anda
 import MainApp from '@/MainApp.vue'
 import DetailRoll from '@/DetailRoll.vue'
 import MotorConveyorDetail from '@/MotorConveyorDetail.vue'
@@ -15,52 +14,52 @@ const routes = [
   {
     path: '/',
     name: 'MainApp',
-    component: MainApp, // Halaman lain
+    component: MainApp,
   },
   {
     path: '/detailroll',
     name: 'DetailRoll',
-    component: DetailRoll, // Halaman lain
+    component: DetailRoll,
   },
   {
     path: '/detailmotorconveyor',
     name: 'MotorConveyorDetail',
-    component: MotorConveyorDetail, // Halaman lain
+    component: MotorConveyorDetail,
   },
   {
     path: '/detailsafetyconveyor',
     name: 'SafetyConveyorDetail',
-    component: SafetyConveyorDetail, // Halaman lain
+    component: SafetyConveyorDetail,
   },
   {
     path: '/detailpalletedispenser',
     name: 'PalleteDispenserDetail',
-    component: PalleteDispenserDetail, // Halaman lain
+    component: PalleteDispenserDetail,
   },
   {
     path: '/detailarmrobot',
     name: 'ArmRobotDetail',
-    component: ArmRobotDetail, // Halaman lain
+    component: ArmRobotDetail,
   },
   {
     path: '/historypage',
     name: 'HistoryPage',
-    component: HistoryPage, // Halaman lain
+    component: HistoryPage,
   },
   {
     path: '/alarmpage',
     name: 'AlarmPage',
-    component: AlarmPage, // Halaman lain
+    component: AlarmPage,
   },
   {
     path: '/safety_camera_detail',
     name: 'SafetyCameraDetail',
-    component: SafetyCameraDetail, // Halaman lain
+    component: SafetyCameraDetail,
   },
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes,
 })
 
