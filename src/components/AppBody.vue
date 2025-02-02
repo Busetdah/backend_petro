@@ -126,7 +126,7 @@ onUnmounted(() => {
             </div>
           </div>
         </div>
-        <div class="detail-button">DETAIL</div>
+        <router-link class="detail-button" to="/safety_camera_detail">DETAIL</router-link>
       </div>
     </section>
     <section>
@@ -455,6 +455,8 @@ hr {
   padding: 5px 10px;
   cursor: pointer;
   font-size: 1vw;
+  text-decoration: none;
+  color: #000000;
 }
 .box-motor {
   position: absolute;
