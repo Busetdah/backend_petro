@@ -68,7 +68,6 @@ const fetchSafetyCameraData = async () => {
 
       if (firstItem?.status !== undefined) {
         dataSafetyCamera.value = firstItem.status;
-        console.log("Updated dataSafetyCamera:", dataSafetyCamera.value);
       } else {
         console.warn("Warning: 'status' field is missing in firstItem.");
       }
