@@ -60,13 +60,25 @@ const fetchArmData = async () => {
 
 const fetchSafetyCameraData = async () => {
   try {
-    const response = await axios.get(`${apiBaseUrl}/api/safety_camera_detection`)
-    dataSafetyCamera.value = response.data.status[0]
-  } catch (error) {
-    console.error('Error fetching safety camera data:', error)
-  }
-}
+    const response = await axios.get(`${apiBaseUrl}/api/safety_camera_detection`);
+    const data = response.data.data;
 
+    if (Array.isArray(data) && data.length > 0) {
+      const firstItem = data[0];
+
+      if (firstItem?.status !== undefined) {
+        dataSafetyCamera.value = firstItem.status;
+        console.log("Updated dataSafetyCamera:", dataSafetyCamera.value);
+      } else {
+        console.warn("Warning: 'status' field is missing in firstItem.");
+      }
+    } else {
+      console.warn("Warning: API returned an empty or invalid data array.");
+    }
+  } catch (error) {
+    console.error("Error fetching safety camera data:", error);
+  }
+};
 let pollingIntervalMotor = null
 let pollingIntervalPallet = null
 let pollingIntervalSafConv = null
@@ -128,11 +140,11 @@ onUnmounted(() => {
           <div class="status-box">
             <div class="status normal">
               <span> SAFE </span>
-              <div class="indicator" :class="{ blink: dataSafetyCamera === 0 }"></div>
+              <div class="indicator" :class="{ blink: dataSafetyCamera === '0' }"></div>
             </div>
             <div class="status fault">
               <span> DANGER </span>
-              <div class="indicator" :class="{ blink: dataSafetyCamera === 1 }"></div>
+              <div class="indicator" :class="{ blink: dataSafetyCamera === '1' }"></div>
             </div>
           </div>
           <div class="camera-box">
