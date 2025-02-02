@@ -11,9 +11,12 @@
       <div v-else>
         <el-table :data="filteredAlarms" border style="width: 100%">
           <el-table-column label="No" width="50" type="index"></el-table-column>
-          <el-table-column prop="value" label="Value" width="150"></el-table-column>
           <el-table-column prop="source" label="Source" width="200"></el-table-column>
-          <el-table-column prop="error" label="Keterangan" width="300"></el-table-column>
+          <el-table-column label="Keterangan" width="300">
+            <template #default="scope">
+              {{ scope.row.error }}
+            </template>
+          </el-table-column>
         </el-table>
       </div>
     </div>
@@ -29,58 +32,58 @@ export default {
   name: 'AlarmPage',
   setup() {
     const alarms = ref([]);
-    const loading = ref(true)
-    let pollingInterval = null
+    const loading = ref(true);
+    let pollingInterval = null;
 
     const fetchDynamicAlarms = async () => {
-  try {
-    const response = await axios.get(`${apiBaseUrl}/api/alarms`);
+      try {
+        const response = await axios.get(`${apiBaseUrl}/api/alarms`);
 
-    if (!response.data || !Array.isArray(response.data)) {
-      alarms.value = [];
-      return;
-    }
+        if (!response.data || !Array.isArray(response.data)) {
+          alarms.value = [];
+          return;
+        }
 
-    alarms.value = response.data;
-  } catch (error) {
-    console.error('Failed to fetch alarms:', error);
-  } finally {
-    loading.value = false;
-  }
-};
+        alarms.value = response.data;
+      } catch (error) {
+        console.error('Failed to fetch alarms:', error);
+      } finally {
+        loading.value = false;
+      }
+    };
 
     const startPolling = () => {
       pollingInterval = setInterval(() => {
-        fetchDynamicAlarms()
-      }, 2000)
-    }
+        fetchDynamicAlarms();
+      }, 2000);
+    };
 
     const stopPolling = () => {
       if (pollingInterval) {
-        clearInterval(pollingInterval)
+        clearInterval(pollingInterval);
       }
-    }
+    };
 
     const filteredAlarms = computed(() => {
-      return alarms.value.filter((alarm) => alarm.value > 0)
-    })
+      return alarms.value;
+    });
 
     onMounted(() => {
-      fetchDynamicAlarms()
-      startPolling()
-    })
+      fetchDynamicAlarms();
+      startPolling();
+    });
 
     onBeforeUnmount(() => {
-      stopPolling()
-    })
+      stopPolling();
+    });
 
     return {
       alarms,
       loading,
       filteredAlarms,
-    }
+    };
   },
-}
+};
 </script>
 
 <style scoped>
