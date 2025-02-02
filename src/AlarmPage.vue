@@ -12,7 +12,7 @@
         <el-table :data="filteredAlarms" border style="width: 100%">
           <el-table-column label="No" width="50" type="index"></el-table-column>
           <el-table-column prop="source" label="Source" width="200"></el-table-column>
-          <el-table-column label="Keterangan" width="300">
+          <el-table-column label="Keterangan" width="700">
             <template #default="scope">
               {{ scope.row.error }}
             </template>
