@@ -8,6 +8,7 @@ const dataPallet = ref([])
 const dataSafConv = ref([])
 const dataRoll = ref([])
 const dataArm = ref([])
+const dataSafetyCamera = ref(0)
 
 const normal = 50
 const warning = 30
@@ -16,7 +17,6 @@ const fetchMotorData = async () => {
   try {
     const response = await axios.get(`${apiBaseUrl}/api/motor_conveyor`)
     dataMotor.value = response.data.data
-    console.log(dataMotor.value)
   } catch (error) {
     console.error('Error fetching motor conveyor data:', error)
   }
@@ -36,7 +36,7 @@ const fetchSafConvData = async () => {
     const response = await axios.get(`${apiBaseUrl}/api/safety_conveyor`)
     dataSafConv.value = response.data.data
   } catch (error) {
-    console.error('Error fetching pallet dispenser data:', error)
+    console.error('Error fetching safety conveyor data:', error)
   }
 }
 
@@ -45,7 +45,7 @@ const fetchRollData = async () => {
     const response = await axios.get(`${apiBaseUrl}/api/roll`)
     dataRoll.value = response.data.data
   } catch (error) {
-    console.error('Error fetching pallet dispenser data:', error)
+    console.error('Error fetching roll data:', error)
   }
 }
 
@@ -54,7 +54,16 @@ const fetchArmData = async () => {
     const response = await axios.get(`${apiBaseUrl}/api/arm_robot`)
     dataArm.value = response.data.data
   } catch (error) {
-    console.error('Error fetching pallet dispenser data:', error)
+    console.error('Error fetching arm robot data:', error)
+  }
+}
+
+const fetchSafetyCameraData = async () => {
+  try {
+    const response = await axios.get(`${apiBaseUrl}/api/safety_camera_detection`)
+    dataSafetyCamera.value = response.data.status[0]
+  } catch (error) {
+    console.error('Error fetching safety camera data:', error)
   }
 }
 
@@ -63,6 +72,7 @@ let pollingIntervalPallet = null
 let pollingIntervalSafConv = null
 let pollingIntervalRoll = null
 let pollingIntervalArm = null
+let pollingIntervalSafetyCamera = null
 
 onMounted(() => {
   fetchSafConvData()
@@ -70,12 +80,14 @@ onMounted(() => {
   fetchPalletData()
   fetchRollData()
   fetchArmData()
+  fetchSafetyCameraData()
 
   pollingIntervalMotor = setInterval(fetchMotorData, 1000)
   pollingIntervalPallet = setInterval(fetchPalletData, 1000)
   pollingIntervalSafConv = setInterval(fetchSafConvData, 1000)
   pollingIntervalRoll = setInterval(fetchRollData, 1000)
   pollingIntervalArm = setInterval(fetchArmData, 1000)
+  pollingIntervalSafetyCamera = setInterval(fetchSafetyCameraData, 1000)
 })
 
 onUnmounted(() => {
@@ -93,6 +105,9 @@ onUnmounted(() => {
   }
   if (pollingIntervalArm) {
     clearInterval(pollingIntervalArm)
+  }
+  if (pollingIntervalSafetyCamera) {
+    clearInterval(pollingIntervalSafetyCamera)
   }
 })
 </script>
@@ -113,11 +128,11 @@ onUnmounted(() => {
           <div class="status-box">
             <div class="status normal">
               <span> SAFE </span>
-              <div class="indicator"></div>
+              <div class="indicator" :class="{ blink: dataSafetyCamera === 0 }"></div>
             </div>
             <div class="status fault">
               <span> DANGER </span>
-              <div class="indicator"></div>
+              <div class="indicator" :class="{ blink: dataSafetyCamera === 1 }"></div>
             </div>
           </div>
           <div class="camera-box">
