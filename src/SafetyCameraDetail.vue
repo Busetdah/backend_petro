@@ -11,10 +11,13 @@
 
     <div v-else>
       <el-table :data="detections" border style="width: 100%">
-        <el-table-column label="No" type="index" width="50"></el-table-column>
-        <el-table-column prop="id" label="ID" width="80"></el-table-column>
+        <el-table-column label="No" width="50">
+          <template #default="scope">
+            {{ (currentPage - 1) * pageSize + scope.$index + 1 }}
+          </template>
+        </el-table-column>
         <el-table-column prop="status" label="Status" width="80"></el-table-column>
-        <el-table-column label="Created At" width="250">
+        <el-table-column label="Waktu" width="250">
           <template #default="scope">
             <span>{{ formatDate(scope.row.created_at) }}</span>
           </template>
@@ -23,7 +26,7 @@
           <template #default="scope">
             <template v-if="scope.row.gambar">
               <img
-                :src="`data:image/jpeg;base64,${scope.row.gambar}`"
+                :src="`data:image/png;base64,${scope.row.gambar}`"
                 alt="Gambar Safety Camera"
                 class="detection-img"
                 @click="openFullscreen(scope.row.gambar)"
@@ -35,6 +38,16 @@
           </template>
         </el-table-column>
       </el-table>
+
+
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :total="totalDetections"
+        :page-size="pageSize"
+        :current-page="currentPage"
+        @current-change="handlePageChange"
+      />
     </div>
 
     <div v-if="isFullscreen" class="fullscreen-overlay" @click="closeFullscreen">
@@ -51,7 +64,13 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import localeData from 'dayjs/plugin/localeData';
 import 'dayjs/locale/id';
+
+dayjs.extend(utc);
+dayjs.extend(localeData);
+dayjs.locale('id');
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -62,14 +81,25 @@ export default {
     const loading = ref(true);
     const isFullscreen = ref(false);
     const fullscreenImage = ref(null);
+    const currentPage = ref(1);
+    const pageSize = ref(10);
+    const totalDetections = ref(0);
 
     const fetchDetections = async () => {
+      loading.value = true;
       try {
-        const response = await axios.get(`${apiBaseUrl}/api/safety_camera_detection`);
+        const response = await axios.get(`${apiBaseUrl}/api/safety_camera_detection`, {
+          params: {
+            page: currentPage.value,
+            limit: pageSize.value,
+          },
+        });
         if (response.data && Array.isArray(response.data.data)) {
           detections.value = response.data.data;
+          totalDetections.value = response.data.total;
         } else {
           detections.value = [];
+          totalDetections.value = 0;
         }
       } catch (error) {
         console.error('Error fetching safety camera detections:', error);
@@ -89,9 +119,12 @@ export default {
     };
 
     const formatDate = (dateStr) => {
-      return dayjs(dateStr)
-        .locale('id')
-        .format('dddd, D MMMM YYYY, [jam] HH:mm');
+      return dayjs.utc(dateStr).locale('id').format('dddd, D MMMM YYYY, [jam] HH:mm');
+    };
+
+    const handlePageChange = (page) => {
+      currentPage.value = page;
+      fetchDetections();
     };
 
     onMounted(() => {
@@ -103,13 +136,19 @@ export default {
       loading,
       isFullscreen,
       fullscreenImage,
+      currentPage,
+      pageSize,
+      totalDetections,
       openFullscreen,
       closeFullscreen,
       formatDate,
+      handlePageChange,
     };
   },
 };
 </script>
+
+
 
 <style scoped>
 .container {
