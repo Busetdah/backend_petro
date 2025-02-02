@@ -6,7 +6,7 @@
         <p>Loading...</p>
       </div>
       <div v-else-if="filteredAlarms.length === 0" class="text-center">
-        <p>Tidak ada Alarm, sistem Normal ^</p>
+        <p>Tidak ada Alarm, sistem Normal ^_^</p>
       </div>
       <div v-else>
         <el-table :data="filteredAlarms" border style="width: 100%">
