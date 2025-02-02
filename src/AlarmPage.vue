@@ -13,6 +13,7 @@
           <el-table-column label="No" width="50" type="index"></el-table-column>
           <el-table-column prop="value" label="Value" width="150"></el-table-column>
           <el-table-column prop="source" label="Source" width="200"></el-table-column>
+          <el-table-column prop="error" label="Keterangan" width="300"></el-table-column>
         </el-table>
       </div>
     </div>
@@ -22,24 +23,31 @@
 <script>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import axios from 'axios'
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 export default {
   name: 'AlarmPage',
   setup() {
-    const alarms = ref([])
+    const alarms = ref([]);
     const loading = ref(true)
     let pollingInterval = null
 
     const fetchDynamicAlarms = async () => {
-      try {
-        const response = await axios.get('https://be.robofuji.smartrobofuji.site/api/alarms')
-        alarms.value = response.data
-      } catch (error) {
-        console.error('Failed to fetch alarms:', error)
-      } finally {
-        loading.value = false
-      }
+  try {
+    const response = await axios.get(`${apiBaseUrl}/api/alarms`);
+
+    if (!response.data || !Array.isArray(response.data)) {
+      alarms.value = [];
+      return;
     }
+
+    alarms.value = response.data;
+  } catch (error) {
+    console.error('Failed to fetch alarms:', error);
+  } finally {
+    loading.value = false;
+  }
+};
 
     const startPolling = () => {
       pollingInterval = setInterval(() => {

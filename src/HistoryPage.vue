@@ -6,9 +6,7 @@
         <p>Loading...</p>
       </div>
       <div v-else>
-        <!-- Tabel dengan Element Plus -->
         <el-table :data="paginatedData" border style="width: 100%">
-          <!-- Kolom Nomor -->
           <el-table-column
             label="No"
             width="70"
@@ -24,7 +22,6 @@
           </el-table-column>
         </el-table>
 
-        <!-- Pagination -->
         <el-pagination
           class="mt-4"
           background
@@ -42,6 +39,7 @@
 <script>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import axios from 'axios'
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 export default {
   name: 'DynamicAlarmTable',
@@ -49,10 +47,9 @@ export default {
     const alarms = ref([])
     const loading = ref(true)
     const currentPage = ref(1)
-    const itemsPerPage = ref(10) // Jumlah item per halaman
-    let pollingInterval = null // Untuk menyimpan interval polling
+    const itemsPerPage = ref(10)
+    let pollingInterval = null
 
-    // Data untuk halaman saat ini
     const paginatedData = computed(() => {
       const start = (currentPage.value - 1) * itemsPerPage.value
       return alarms.value.slice(start, start + itemsPerPage.value)
@@ -60,7 +57,7 @@ export default {
 
     const fetchAlarms = async () => {
       try {
-        const response = await axios.get('https://be.robofuji.smartrobofuji.site/api/historys')
+        const response = await axios.get(`${apiBaseUrl}/api/historys`)
         alarms.value = response.data
       } catch (error) {
         console.error('Failed to fetch alarms:', error)
@@ -76,7 +73,7 @@ export default {
     const startPolling = () => {
       pollingInterval = setInterval(() => {
         fetchAlarms()
-      }, 5000) // Poll setiap 5 detik
+      }, 5000)
     }
 
     const stopPolling = () => {
@@ -86,24 +83,23 @@ export default {
     }
 
     const formatcreated_at = (created_at) => {
-      if (!created_at) return 'N/A' // Jika created_at kosong
-      const date = new Date(created_at) // Pastikan format dapat diterima oleh Date
-      if (isNaN(date.getTime())) return 'Invalid Date' // Tangani kesalahan parsing
-      return date.toLocaleString() // Format tanggal & waktu lokal
+      if (!created_at) return 'N/A'
+      const date = new Date(created_at)
+      if (isNaN(date.getTime())) return 'Invalid Date'
+      return date.toLocaleString()
     }
 
-    // Hitung nomor berdasarkan indeks tabel
     const computeRowIndex = (index) => {
       return (currentPage.value - 1) * itemsPerPage.value + index + 1
     }
 
     onMounted(() => {
       fetchAlarms()
-      startPolling() // Mulai polling data
+      startPolling()
     })
 
     onBeforeUnmount(() => {
-      stopPolling() // Hentikan polling saat komponen dihancurkan
+      stopPolling()
     })
 
     return {
@@ -121,12 +117,11 @@ export default {
 </script>
 
 <style scoped>
-/* Memusatkan tabel dan konten lainnya */
 .container {
   display: flex;
-  justify-content: center; /* Memusatkan secara horizontal */
-  height: 40vh; /* Tinggi layar penuh */
-  text-align: center; /* Pusatkan teks secara default */
+  justify-content: center;
+  height: 40vh;
+  text-align: center;
 }
 
 h1 {
@@ -134,8 +129,8 @@ h1 {
 }
 
 .el-table {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Tambahkan bayangan pada tabel */
-  border-radius: 8px; /* Sudut tabel melengkung */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 }
 
 .mt-4 {

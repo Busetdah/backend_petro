@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import axios from 'axios'
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 const dataMotor = ref([])
 const dataPallet = ref([])
@@ -8,12 +9,12 @@ const dataSafConv = ref([])
 const dataRoll = ref([])
 const dataArm = ref([])
 
-const normal = 40
+const normal = 50
 const warning = 30
 
 const fetchMotorData = async () => {
   try {
-    const response = await axios.get('https://be.robofuji.smartrobofuji.site/api/motor_conveyor')
+    const response = await axios.get(`${apiBaseUrl}/api/motor_conveyor`)
     dataMotor.value = response.data.data
     console.log(dataMotor.value)
   } catch (error) {
@@ -23,7 +24,7 @@ const fetchMotorData = async () => {
 
 const fetchPalletData = async () => {
   try {
-    const response = await axios.get('https://be.robofuji.smartrobofuji.site/api/pallet_dispenser')
+    const response = await axios.get(`${apiBaseUrl}/api/pallet_dispenser`)
     dataPallet.value = response.data.data
   } catch (error) {
     console.error('Error fetching pallet dispenser data:', error)
@@ -32,7 +33,7 @@ const fetchPalletData = async () => {
 
 const fetchSafConvData = async () => {
   try {
-    const response = await axios.get('https://be.robofuji.smartrobofuji.site/api/safety_conveyor')
+    const response = await axios.get(`${apiBaseUrl}/api/safety_conveyor`)
     dataSafConv.value = response.data.data
   } catch (error) {
     console.error('Error fetching pallet dispenser data:', error)
@@ -41,7 +42,7 @@ const fetchSafConvData = async () => {
 
 const fetchRollData = async () => {
   try {
-    const response = await axios.get('https://be.robofuji.smartrobofuji.site/api/roll')
+    const response = await axios.get(`${apiBaseUrl}/api/roll`)
     dataRoll.value = response.data.data
   } catch (error) {
     console.error('Error fetching pallet dispenser data:', error)
@@ -50,7 +51,7 @@ const fetchRollData = async () => {
 
 const fetchArmData = async () => {
   try {
-    const response = await axios.get('https://be.robofuji.smartrobofuji.site/api/arm_robot')
+    const response = await axios.get(`${apiBaseUrl}/api/arm_robot`)
     dataArm.value = response.data.data
   } catch (error) {
     console.error('Error fetching pallet dispenser data:', error)
@@ -111,15 +112,11 @@ onUnmounted(() => {
         <div class="content">
           <div class="status-box">
             <div class="status normal">
-              <span> NORMAL </span>
-              <div class="indicator"></div>
-            </div>
-            <div class="status warning">
-              <span> WARNING </span>
+              <span> SAFE </span>
               <div class="indicator"></div>
             </div>
             <div class="status fault">
-              <span> FAULT </span>
+              <span> DANGER </span>
               <div class="indicator"></div>
             </div>
           </div>
@@ -156,48 +153,16 @@ onUnmounted(() => {
           </div>
           <div class="camera-box-motor">
             <div class="camera-motor">
-              <span>{{ dataMotor.value }}</span>
+              <span>{{ dataMotor.value }}%</span>
             </div>
             <router-link class="detail-button-motor" to="/detailmotorconveyor">DETAIL</router-link>
           </div>
         </div>
+        <div class="arrow-long-right"></div>
       </div>
     </section>
     <section>
       <div class="box-motor-p">
-        <div class="title-motor">Overview Pallet Dispenser</div>
-        <hr />
-        <div class="content-motor">
-          <div class="status-box-motor">
-            <div class="status-motor normal">
-              <span> NORMAL </span>
-              <div class="indicator" :class="{ blink: dataPallet.value > normal }"></div>
-            </div>
-            <div class="status-motor warning">
-              <span> WARNING </span>
-              <div
-                class="indicator"
-                :class="{ blink: dataPallet.value > warning && dataPallet.value < normal }"
-              ></div>
-            </div>
-            <div class="status-motor fault">
-              <span> FAULT </span>
-              <div class="indicator" :class="{ blink: dataPallet.value < warning }"></div>
-            </div>
-          </div>
-          <div class="camera-box-motor">
-            <div class="camera-motor">
-              <span>{{ dataPallet.value }}</span>
-            </div>
-            <router-link class="detail-button-motor" to="/detailpalletedispenser"
-              >DETAIL</router-link
-            >
-          </div>
-        </div>
-      </div>
-    </section>
-    <section>
-      <div class="box-motor-s">
         <div class="title-motor">Overview Safety Conveyor</div>
         <hr />
         <div class="content-motor">
@@ -220,11 +185,46 @@ onUnmounted(() => {
           </div>
           <div class="camera-box-motor">
             <div class="camera-motor">
-              <span>{{ dataSafConv.value }}</span>
+              <span>{{ dataSafConv.value }}%</span>
             </div>
             <router-link class="detail-button-motor" to="/detailsafetyconveyor">DETAIL</router-link>
           </div>
         </div>
+        <div class="arrow-long-left"></div>
+      </div>
+    </section>
+    <section>
+      <div class="box-motor-s">
+        <div class="title-motor">Overview Pallet Dispenser</div>
+        <hr />
+        <div class="content-motor">
+          <div class="status-box-motor">
+            <div class="status-motor normal">
+              <span> NORMAL </span>
+              <div class="indicator" :class="{ blink: dataPallet.value > normal }"></div>
+            </div>
+            <div class="status-motor warning">
+              <span> WARNING </span>
+              <div
+                class="indicator"
+                :class="{ blink: dataPallet.value > warning && dataPallet.value < normal }"
+              ></div>
+            </div>
+            <div class="status-motor fault">
+              <span> FAULT </span>
+              <div class="indicator" :class="{ blink: dataPallet.value < warning }"></div>
+            </div>
+          </div>
+          <div class="camera-box-motor">
+            <div class="camera-motor">
+              <span>{{ dataPallet.value }}%</span>
+            </div>
+            <router-link class="detail-button-motor" to="/detailpalletedispenser"
+              >DETAIL</router-link
+            >
+          </div>
+        </div>
+        <div class="arrow-long-right"></div>
       </div>
     </section>
     <section>
@@ -251,11 +251,12 @@ onUnmounted(() => {
           </div>
           <div class="camera-box-motor">
             <div class="camera-motor">
-              <span>{{ dataRoll.value }}</span>
+              <span>{{ dataRoll.value }}%</span>
             </div>
             <router-link class="detail-button-motor" to="/detailroll">DETAIL</router-link>
           </div>
         </div>
+        <div class="arrow-long-left"></div>
       </div>
     </section>
     <section>
@@ -282,17 +283,69 @@ onUnmounted(() => {
           </div>
           <div class="camera-box-motor">
             <div class="camera-motor">
-              <span>{{ dataArm.value }}</span>
+              <span>{{ dataArm.value }}%</span>
             </div>
             <router-link class="detail-button-motor" to="/detailarmrobot">DETAIL</router-link>
           </div>
         </div>
+        <div class="arrow-long-left"></div>
       </div>
     </section>
   </section>
 </template>
 
 <style scoped>
+.arrow-long-right {
+  position: absolute;
+  top: 50%;
+  right: -50px;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+}
+
+.arrow-long-right::after {
+  content: '';
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 15px solid #000000;
+}
+
+.arrow-long-right::before {
+  content: '';
+  width: 30px;
+  height: 10px;
+  background-color: #000000;
+  margin-right: -1px;
+}
+
+.arrow-long-left {
+  position: absolute;
+  top: 50%;
+  left: -50px;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+}
+
+.arrow-long-left::before {
+  content: '';
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 15px solid #000000;
+}
+
+.arrow-long-left::after {
+  content: '';
+  width: 30px;
+  height: 10px;
+  background-color: #000000;
+  margin-left: -1px;
+}
 .background-video {
   position: absolute;
   top: 0;
@@ -405,13 +458,13 @@ hr {
 }
 .box-motor {
   position: absolute;
-  top: 47vh;
-  left: 5vw;
+  top: 53vh;
+  left: 4vw;
   transform: translate(-50%, -50%);
   background-color: #0080ff;
   border: 2px solid #000000;
   padding: 2px;
-  width: 9rem;
+  width: 11rem;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -471,12 +524,12 @@ hr {
 .box-motor-p {
   position: absolute;
   top: 75vh;
-  left: 40vw;
+  left: 44vw;
   transform: translate(-50%, -50%);
   background-color: #0080ff;
   border: 2px solid #000000;
   padding: 2px;
-  width: 9rem;
+  width: 11rem;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -485,12 +538,12 @@ hr {
 .box-motor-s {
   position: absolute;
   top: 75vh;
-  left: 12vw;
+  left: 15vw;
   transform: translate(-50%, -50%);
   background-color: #0080ff;
   border: 2px solid #000000;
   padding: 2px;
-  width: 9rem;
+  width: 11rem;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -498,13 +551,13 @@ hr {
 }
 .box-motor-r {
   position: absolute;
-  top: 62vh;
-  left: 58vw;
+  top: 56vh;
+  left: 54vw;
   transform: translate(-50%, -50%);
   background-color: #0080ff;
   border: 2px solid #000000;
   padding: 2px;
-  width: 9rem;
+  width: 11rem;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -513,12 +566,12 @@ hr {
 .box-motor-a {
   position: absolute;
   top: 35vh;
-  left: 58vw;
+  left: 51vw;
   transform: translate(-50%, -50%);
   background-color: #0080ff;
   border: 2px solid #000000;
   padding: 2px;
-  width: 9rem;
+  width: 11rem;
   text-align: center;
   display: flex;
   flex-direction: column;

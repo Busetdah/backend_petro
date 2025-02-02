@@ -11,6 +11,7 @@ import {
 } from 'echarts/components'
 import VChart from 'vue-echarts'
 import axios from 'axios'
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 use([CanvasRenderer, LineChart, GridComponent, TitleComponent, TooltipComponent, LegendComponent])
 
@@ -86,7 +87,7 @@ const chartRoll = ref({
 const dataRoll = ref([])
 const fetchRollData = async () => {
   try {
-    const response = await axios.get('https://be.robofuji.smartrobofuji.site/api/roll_detail_roll')
+    const response = await axios.get(`${apiBaseUrl}/api/roll_detail_roll`)
     dataRoll.value = response.data.data
     const timeLabels = dataRoll.value
       .slice()

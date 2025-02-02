@@ -11,6 +11,7 @@ import {
 } from 'echarts/components'
 import VChart from 'vue-echarts'
 import axios from 'axios'
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 use([CanvasRenderer, LineChart, GridComponent, TitleComponent, TooltipComponent, LegendComponent])
 
@@ -69,7 +70,7 @@ const dataLiftingArea = ref([])
 const fetchLiftingAreaData = async () => {
   try {
     const response = await axios.get(
-      'https://be.robofuji.smartrobofuji.site/api/safety_conveyor_detail_lifting',
+      `${apiBaseUrl}/api/safety_conveyor_detail_lifting`,
     )
     dataLiftingArea.value = response.data.data
     const timeLabels = dataLiftingArea.value

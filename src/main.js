@@ -7,7 +7,6 @@ import 'element-plus/dist/index.css'
 
 const app = createApp(App)
 
-// Gunakan router
 app.use(router)
 app.component('VideoBackground', VideoBackground)
 app.use(ElementPlus)

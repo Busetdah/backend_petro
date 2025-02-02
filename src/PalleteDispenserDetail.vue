@@ -11,6 +11,7 @@ import {
 } from 'echarts/components'
 import VChart from 'vue-echarts'
 import axios from 'axios'
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 use([CanvasRenderer, LineChart, GridComponent, TitleComponent, TooltipComponent, LegendComponent])
 
@@ -138,7 +139,7 @@ const dataRight = ref([])
 const fetchLeftData = async () => {
   try {
     const response = await axios.get(
-      'https://be.robofuji.smartrobofuji.site/api/pallete_dispenser_detail_left',
+      `${apiBaseUrl}/api/pallete_dispenser_detail_left`,
     )
     dataLeft.value = response.data.data
     const timeLabels = dataLeft.value
@@ -171,7 +172,7 @@ const fetchLeftData = async () => {
 const fetchRightData = async () => {
   try {
     const response = await axios.get(
-      'https://be.robofuji.smartrobofuji.site/api/pallete_dispenser_detail_right',
+      `${apiBaseUrl}/api/pallete_dispenser_detail_right`,
     )
     dataRight.value = response.data.data
     const timeLabels = dataRight.value

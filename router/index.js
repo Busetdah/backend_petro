@@ -9,6 +9,7 @@ import PalleteDispenserDetail from '@/PalleteDispenserDetail.vue'
 import ArmRobotDetail from '@/ArmRobotDetail.vue'
 import HistoryPage from '@/HistoryPage.vue'
 import AlarmPage from '@/AlarmPage.vue'
+import SafetyCameraDetail from '@/SafetyCameraDetail.vue'
 
 const routes = [
   {
@@ -50,6 +51,11 @@ const routes = [
     path: '/alarmpage',
     name: 'AlarmPage',
     component: AlarmPage, // Halaman lain
+  },
+  {
+    path: '/safety_camera_detail',
+    name: 'SafetyCameraDetail',
+    component: SafetyCameraDetail, // Halaman lain
   },
 ]
 

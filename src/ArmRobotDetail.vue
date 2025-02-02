@@ -11,21 +11,21 @@ import {
 } from 'echarts/components'
 import VChart from 'vue-echarts'
 import axios from 'axios'
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 use([CanvasRenderer, LineChart, GridComponent, TitleComponent, TooltipComponent, LegendComponent])
 
 const chartMotor1 = ref({
   title: {
-    text: 'Motor 1',
+    text: 'Arm Robot Fuji',
     left: 'center',
   },
   tooltip: {
     trigger: 'axis',
   },
   legend: {
-    data: ['Temperature', 'Vibration', 'Speed', 'Air Pressure'],
+    data: ['Temperature', 'Vibration', 'Air Pressure'],
     top: '8%',
-    right: '1%',
     itemWidth: 16,
     itemHeight: 8,
     textStyle: {
@@ -60,15 +60,6 @@ const chartMotor1 = ref({
       smooth: true,
       lineStyle: {
         color: 'red',
-      },
-    },
-    {
-      name: 'Speed',
-      type: 'line',
-      data: [],
-      smooth: true,
-      lineStyle: {
-        color: 'green',
       },
     },
     {
@@ -83,221 +74,12 @@ const chartMotor1 = ref({
   ],
 })
 
-const chartMotor2 = ref({
-  title: {
-    text: 'Motor 2',
-    left: 'center',
-  },
-  tooltip: {
-    trigger: 'axis',
-  },
-  legend: {
-    data: ['Temperature', 'Vibration', 'Speed', 'Air Pressure'],
-    top: '8%',
-    right: '1%',
-    itemWidth: 16,
-    itemHeight: 8,
-    textStyle: {
-      fontSize: 12,
-    },
-  },
-  xAxis: {
-    type: 'category',
-    data: [],
-    axisLabel: {
-      rotate: 45,
-      fontSize: 10,
-    },
-  },
-  yAxis: {
-    type: 'value',
-  },
-  series: [
-    {
-      name: 'Temperature',
-      type: 'line',
-      data: [],
-      smooth: true,
-      lineStyle: {
-        color: 'blue',
-      },
-    },
-    {
-      name: 'Vibration',
-      type: 'line',
-      data: [],
-      smooth: true,
-      lineStyle: {
-        color: 'red',
-      },
-    },
-    {
-      name: 'Speed',
-      type: 'line',
-      data: [],
-      smooth: true,
-      lineStyle: {
-        color: 'green',
-      },
-    },
-    {
-      name: 'Air Pressure',
-      type: 'line',
-      data: [],
-      smooth: true,
-      lineStyle: {
-        color: 'black',
-      },
-    },
-  ],
-})
-
-const chartMotor3 = ref({
-  title: {
-    text: 'Motor 3',
-    left: 'center',
-  },
-  tooltip: {
-    trigger: 'axis',
-  },
-  legend: {
-    data: ['Temperature', 'Vibration', 'Speed', 'Air Pressure'],
-    top: '8%',
-    right: '1%',
-    itemWidth: 16,
-    itemHeight: 8,
-    textStyle: {
-      fontSize: 12,
-    },
-  },
-  xAxis: {
-    type: 'category',
-    data: [],
-    axisLabel: {
-      rotate: 45,
-      fontSize: 10,
-    },
-  },
-  yAxis: {
-    type: 'value',
-  },
-  series: [
-    {
-      name: 'Temperature',
-      type: 'line',
-      data: [],
-      smooth: true,
-      lineStyle: {
-        color: 'blue',
-      },
-    },
-    {
-      name: 'Vibration',
-      type: 'line',
-      data: [],
-      smooth: true,
-      lineStyle: {
-        color: 'red',
-      },
-    },
-    {
-      name: 'Speed',
-      type: 'line',
-      data: [],
-      smooth: true,
-      lineStyle: {
-        color: 'green',
-      },
-    },
-    {
-      name: 'Air Pressure',
-      type: 'line',
-      data: [],
-      smooth: true,
-      lineStyle: {
-        color: 'black',
-      },
-    },
-  ],
-})
-
-const chartMotor4 = ref({
-  title: {
-    text: 'Motor 4',
-    left: 'center',
-  },
-  tooltip: {
-    trigger: 'axis',
-  },
-  legend: {
-    data: ['Temperature', 'Vibration', 'Speed', 'Air Pressure'],
-    top: '8%',
-    right: '1%',
-    itemWidth: 16,
-    itemHeight: 8,
-    textStyle: {
-      fontSize: 12,
-    },
-  },
-  xAxis: {
-    type: 'category',
-    data: [],
-    axisLabel: {
-      rotate: 45,
-      fontSize: 10,
-    },
-  },
-  yAxis: {
-    type: 'value',
-  },
-  series: [
-    {
-      name: 'Temperature',
-      type: 'line',
-      data: [],
-      smooth: true,
-      lineStyle: {
-        color: 'blue',
-      },
-    },
-    {
-      name: 'Vibration',
-      type: 'line',
-      data: [],
-      smooth: true,
-      lineStyle: {
-        color: 'red',
-      },
-    },
-    {
-      name: 'Speed',
-      type: 'line',
-      data: [],
-      smooth: true,
-      lineStyle: {
-        color: 'green',
-      },
-    },
-    {
-      name: 'Air Pressure',
-      type: 'line',
-      data: [],
-      smooth: true,
-      lineStyle: {
-        color: 'black',
-      },
-    },
-  ],
-})
 const dataMotor1 = ref([])
-const dataMotor2 = ref([])
-const dataMotor3 = ref([])
-const dataMotor4 = ref([])
 
 const fetchMotor1Data = async () => {
   try {
     const response = await axios.get(
-      'https://be.robofuji.smartrobofuji.site/api/arm_robot_detail_motor1',
+      `${apiBaseUrl}/api/arm_robot_detail_motor1`,
     )
     dataMotor1.value = response.data.data
     const timeLabels = dataMotor1.value
@@ -313,143 +95,29 @@ const fetchMotor1Data = async () => {
       })
     const temperatureData = dataMotor1.value.map((item) => parseFloat(item.temperature)).reverse()
     const vibrationData = dataMotor1.value.map((item) => parseFloat(item.vibration)).reverse()
-    const speedData = dataMotor1.value.map((item) => parseFloat(item.speed)).reverse()
     const airPressureData = dataMotor1.value.map((item) => parseFloat(item.airpressure)).reverse()
 
     chartMotor1.value.xAxis.data = timeLabels
     chartMotor1.value.series[0].data = temperatureData
     chartMotor1.value.series[1].data = vibrationData
-    chartMotor1.value.series[2].data = speedData
-    chartMotor1.value.series[3].data = airPressureData
+    chartMotor1.value.series[2].data = airPressureData
   } catch (error) {
     console.error('Error fetching motor 1 data:', error)
   }
 }
 
-const fetchMotor2Data = async () => {
-  try {
-    const response = await axios.get(
-      'https://be.robofuji.smartrobofuji.site/api/arm_robot_detail_motor2',
-    )
-    dataMotor2.value = response.data.data
-    const timeLabels = dataMotor2.value
-      .slice()
-      .reverse()
-      .map((item) => {
-        const date = new Date(item.created_at)
-        if (isNaN(date)) {
-          return 'Invalid Date'
-        }
-
-        return `${date.toISOString().split('T')[0]}\n${date.toTimeString().split(' ')[0]}`
-      })
-    const temperatureData = dataMotor2.value.map((item) => parseFloat(item.temperature)).reverse()
-    const vibrationData = dataMotor2.value.map((item) => parseFloat(item.vibration)).reverse()
-    const speedData = dataMotor2.value.map((item) => parseFloat(item.speed)).reverse()
-    const airPressureData = dataMotor2.value.map((item) => parseFloat(item.airpressure)).reverse()
-
-    chartMotor2.value.xAxis.data = timeLabels
-    chartMotor2.value.series[0].data = temperatureData
-    chartMotor2.value.series[1].data = vibrationData
-    chartMotor2.value.series[2].data = speedData
-    chartMotor2.value.series[3].data = airPressureData
-  } catch (error) {
-    console.error('Error fetching motor 2 data:', error)
-  }
-}
-
-const fetchMotor3Data = async () => {
-  try {
-    const response = await axios.get(
-      'https://be.robofuji.smartrobofuji.site/api/arm_robot_detail_motor3',
-    )
-    dataMotor3.value = response.data.data
-    const timeLabels = dataMotor3.value
-      .slice()
-      .reverse()
-      .map((item) => {
-        const date = new Date(item.created_at)
-        if (isNaN(date)) {
-          return 'Invalid Date'
-        }
-
-        return `${date.toISOString().split('T')[0]}\n${date.toTimeString().split(' ')[0]}`
-      })
-    const temperatureData = dataMotor3.value.map((item) => parseFloat(item.temperature)).reverse()
-    const vibrationData = dataMotor3.value.map((item) => parseFloat(item.vibration)).reverse()
-    const speedData = dataMotor3.value.map((item) => parseFloat(item.speed)).reverse()
-    const airPressureData = dataMotor3.value.map((item) => parseFloat(item.airpressure)).reverse()
-
-    chartMotor3.value.xAxis.data = timeLabels
-    chartMotor3.value.series[0].data = temperatureData
-    chartMotor3.value.series[1].data = vibrationData
-    chartMotor3.value.series[2].data = speedData
-    chartMotor3.value.series[3].data = airPressureData
-  } catch (error) {
-    console.error('Error fetching motor 3 data:', error)
-  }
-}
-const fetchMotor4Data = async () => {
-  try {
-    const response = await axios.get(
-      'https://be.robofuji.smartrobofuji.site/api/arm_robot_detail_motor4',
-    )
-    dataMotor4.value = response.data.data
-    const timeLabels = dataMotor4.value
-      .slice()
-      .reverse()
-      .map((item) => {
-        const date = new Date(item.created_at)
-        if (isNaN(date)) {
-          return 'Invalid Date'
-        }
-
-        return `${date.toISOString().split('T')[0]}\n${date.toTimeString().split(' ')[0]}`
-      })
-    const temperatureData = dataMotor4.value.map((item) => parseFloat(item.temperature)).reverse()
-    const vibrationData = dataMotor4.value.map((item) => parseFloat(item.vibration)).reverse()
-    const speedData = dataMotor4.value.map((item) => parseFloat(item.speed)).reverse()
-    const airPressureData = dataMotor4.value.map((item) => parseFloat(item.airpressure)).reverse()
-
-    chartMotor4.value.xAxis.data = timeLabels
-    chartMotor4.value.series[0].data = temperatureData
-    chartMotor4.value.series[1].data = vibrationData
-    chartMotor4.value.series[2].data = speedData
-    chartMotor4.value.series[3].data = airPressureData
-  } catch (error) {
-    console.error('Error fetching motor 4 data:', error)
-  }
-}
 
 let pollingIntervalMotor1 = null
-let pollingIntervalMotor2 = null
-let pollingIntervalMotor3 = null
-let pollingIntervalMotor4 = null
 
 onMounted(() => {
   fetchMotor1Data()
-  fetchMotor2Data()
-  fetchMotor3Data()
-  fetchMotor4Data()
 
   pollingIntervalMotor1 = setInterval(fetchMotor1Data, 1000)
-  pollingIntervalMotor2 = setInterval(fetchMotor2Data, 1000)
-  pollingIntervalMotor1 = setInterval(fetchMotor3Data, 1000)
-  pollingIntervalMotor2 = setInterval(fetchMotor4Data, 1000)
 })
 
 onUnmounted(() => {
   if (pollingIntervalMotor1) {
     clearInterval(pollingIntervalMotor1)
-  }
-  if (pollingIntervalMotor2) {
-    clearInterval(pollingIntervalMotor2)
-  }
-  if (pollingIntervalMotor3) {
-    clearInterval(pollingIntervalMotor3)
-  }
-  if (pollingIntervalMotor4) {
-    clearInterval(pollingIntervalMotor4)
   }
 })
 </script>
@@ -461,7 +129,7 @@ onUnmounted(() => {
     </div>
     <div class="list-motor">
       <div class="box" v-if="dataMotor1.length > 0 && dataMotor1[0]">
-        <div class="header">Motor 1</div>
+        <div class="header">Arm Robot Fuji</div>
         <div class="parameter">
           <div class="var">TEMPERATURE</div>
           <div class="value">{{ dataMotor1[0].temperature }}</div>
@@ -473,82 +141,8 @@ onUnmounted(() => {
           <div class="unit">%</div>
         </div>
         <div class="parameter">
-          <div class="var">SPEED</div>
-          <div class="value">{{ dataMotor1[0].speed }}</div>
-          <div class="rpm">RPM</div>
-        </div>
-        <div class="parameter">
           <div class="var">AIR PRESSURE</div>
           <div class="value">{{ dataMotor1[0].airpressure }}</div>
-          <div class="unit">Bar</div>
-        </div>
-      </div>
-      <div class="box" v-if="dataMotor2.length > 0 && dataMotor2[0]">
-        <div class="header">Motor 2</div>
-        <div class="parameter">
-          <div class="var">TEMPERATURE</div>
-          <div class="value">{{ dataMotor2[0].temperature }}</div>
-          <div class="unit">°C</div>
-        </div>
-        <div class="parameter">
-          <div class="var">VIBRATION</div>
-          <div class="value">{{ dataMotor2[0].vibration }}</div>
-          <div class="unit">%</div>
-        </div>
-        <div class="parameter">
-          <div class="var">SPEED</div>
-          <div class="value">{{ dataMotor2[0].speed }}</div>
-          <div class="rpm">RPM</div>
-        </div>
-        <div class="parameter">
-          <div class="var">AIR PRESSURE</div>
-          <div class="value">{{ dataMotor2[0].airpressure }}</div>
-          <div class="unit">Bar</div>
-        </div>
-      </div>
-      <div class="box" v-if="dataMotor3.length > 0 && dataMotor3[0]">
-        <div class="header">Motor 3</div>
-        <div class="parameter">
-          <div class="var">TEMPERATURE</div>
-          <div class="value">{{ dataMotor3[0].temperature }}</div>
-          <div class="unit">°C</div>
-        </div>
-        <div class="parameter">
-          <div class="var">VIBRATION</div>
-          <div class="value">{{ dataMotor3[0].vibration }}</div>
-          <div class="unit">%</div>
-        </div>
-        <div class="parameter">
-          <div class="var">SPEED</div>
-          <div class="value">{{ dataMotor3[0].speed }}</div>
-          <div class="rpm">RPM</div>
-        </div>
-        <div class="parameter">
-          <div class="var">AIR PRESSURE</div>
-          <div class="value">{{ dataMotor3[0].airpressure }}</div>
-          <div class="unit">Bar</div>
-        </div>
-      </div>
-      <div class="box" v-if="dataMotor4.length > 0 && dataMotor4[0]">
-        <div class="header">Motor 4</div>
-        <div class="parameter">
-          <div class="var">TEMPERATURE</div>
-          <div class="value">{{ dataMotor4[0].temperature }}</div>
-          <div class="unit">°C</div>
-        </div>
-        <div class="parameter">
-          <div class="var">VIBRATION</div>
-          <div class="value">{{ dataMotor4[0].vibration }}</div>
-          <div class="unit">%</div>
-        </div>
-        <div class="parameter">
-          <div class="var">SPEED</div>
-          <div class="value">{{ dataMotor4[0].speed }}</div>
-          <div class="rpm">RPM</div>
-        </div>
-        <div class="parameter">
-          <div class="var">AIR PRESSURE</div>
-          <div class="value">{{ dataMotor4[0].airpressure }}</div>
           <div class="unit">Bar</div>
         </div>
       </div>
@@ -559,15 +153,6 @@ onUnmounted(() => {
     <div class="container-chart">
       <div class="chart">
         <v-chart :option="chartMotor1" />
-      </div>
-      <div class="chart">
-        <v-chart :option="chartMotor2" />
-      </div>
-      <div class="chart">
-        <v-chart :option="chartMotor3" />
-      </div>
-      <div class="chart">
-        <v-chart :option="chartMotor4" />
       </div>
     </div>
   </section>
@@ -636,6 +221,6 @@ section {
 }
 .chart {
   height: 45vh;
-  width: 24vw;
+  width: 35vw;
 }
 </style>

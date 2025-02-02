@@ -11,6 +11,8 @@ import {
 } from 'echarts/components'
 import VChart from 'vue-echarts'
 import axios from 'axios'
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+
 
 use([CanvasRenderer, LineChart, GridComponent, TitleComponent, TooltipComponent, LegendComponent])
 
@@ -23,7 +25,7 @@ const chartMotor1 = ref({
     trigger: 'axis',
   },
   legend: {
-    data: ['Temperature', 'Vibration', 'Speed', 'Air Pressure'],
+    data: ['Temperature', 'Vibration', 'Speed', 'Arus'],
     top: '8%',
     right: '1%',
     itemWidth: 16,
@@ -72,7 +74,7 @@ const chartMotor1 = ref({
       },
     },
     {
-      name: 'Air Pressure',
+      name: 'Arus',
       type: 'line',
       data: [],
       smooth: true,
@@ -92,7 +94,7 @@ const chartMotor2 = ref({
     trigger: 'axis',
   },
   legend: {
-    data: ['Temperature', 'Vibration', 'Speed', 'Air Pressure'],
+    data: ['Temperature', 'Vibration', 'Speed', 'Arus'],
     top: '8%',
     right: '1%',
     itemWidth: 16,
@@ -141,7 +143,7 @@ const chartMotor2 = ref({
       },
     },
     {
-      name: 'Air Pressure',
+      name: 'Arus',
       type: 'line',
       data: [],
       smooth: true,
@@ -161,7 +163,7 @@ const chartMotor3 = ref({
     trigger: 'axis',
   },
   legend: {
-    data: ['Temperature', 'Vibration', 'Speed', 'Air Pressure'],
+    data: ['Temperature', 'Vibration', 'Speed', 'Arus'],
     top: '8%',
     right: '1%',
     itemWidth: 16,
@@ -210,7 +212,7 @@ const chartMotor3 = ref({
       },
     },
     {
-      name: 'Air Pressure',
+      name: 'Arus',
       type: 'line',
       data: [],
       smooth: true,
@@ -230,7 +232,7 @@ const chartMotor4 = ref({
     trigger: 'axis',
   },
   legend: {
-    data: ['Temperature', 'Vibration', 'Speed', 'Air Pressure'],
+    data: ['Temperature', 'Vibration', 'Speed', 'Arus'],
     top: '8%',
     right: '1%',
     itemWidth: 16,
@@ -279,7 +281,7 @@ const chartMotor4 = ref({
       },
     },
     {
-      name: 'Air Pressure',
+      name: 'Arus',
       type: 'line',
       data: [],
       smooth: true,
@@ -297,31 +299,29 @@ const dataMotor4 = ref([])
 const fetchMotor1Data = async () => {
   try {
     const response = await axios.get(
-      'https://be.robofuji.smartrobofuji.site/api/motor_conveyor_detail_motor1',
+      `${apiBaseUrl}/api/motor_conveyor_detail_motor1`,
     )
     dataMotor1.value = response.data.data
     const timeLabels = dataMotor1.value
-      .slice() // Membuat salinan array agar tidak merusak data asli
-      .reverse() // Membalik urutan data (dari terlama ke terbaru)
+      .slice()
+      .reverse()
       .map((item) => {
-        // Konversi ke objek Date
         const date = new Date(item.created_at)
         if (isNaN(date)) {
-          return 'Invalid Date' // Penanganan jika nilai tidak valid
+          return 'Invalid Date'
         }
-        // Format waktu menjadi: YYYY-MM-DD HH:mm:ss
         return `${date.toISOString().split('T')[0]}\n${date.toTimeString().split(' ')[0]}`
       })
     const temperatureData = dataMotor1.value.map((item) => parseFloat(item.temperature)).reverse()
     const vibrationData = dataMotor1.value.map((item) => parseFloat(item.vibration)).reverse()
     const speedData = dataMotor1.value.map((item) => parseFloat(item.speed)).reverse()
-    const airPressureData = dataMotor1.value.map((item) => parseFloat(item.airpressure)).reverse()
+    const arusData = dataMotor1.value.map((item) => parseFloat(item.arus)).reverse()
 
     chartMotor1.value.xAxis.data = timeLabels
     chartMotor1.value.series[0].data = temperatureData
     chartMotor1.value.series[1].data = vibrationData
     chartMotor1.value.series[2].data = speedData
-    chartMotor1.value.series[3].data = airPressureData
+    chartMotor1.value.series[3].data = arusData
   } catch (error) {
     console.error('Error fetching motor 1 data:', error)
   }
@@ -330,31 +330,31 @@ const fetchMotor1Data = async () => {
 const fetchMotor2Data = async () => {
   try {
     const response = await axios.get(
-      'https://be.robofuji.smartrobofuji.site/api/motor_conveyor_detail_motor2',
+      `${apiBaseUrl}/api/motor_conveyor_detail_motor2`,
     )
     dataMotor2.value = response.data.data
     const timeLabels = dataMotor2.value
-      .slice() // Membuat salinan array agar tidak merusak data asli
-      .reverse() // Membalik urutan data (dari terlama ke terbaru)
+      .slice()
+      .reverse()
       .map((item) => {
-        // Konversi ke objek Date
+
         const date = new Date(item.created_at)
         if (isNaN(date)) {
-          return 'Invalid Date' // Penanganan jika nilai tidak valid
+          return 'Invalid Date'
         }
-        // Format waktu menjadi: YYYY-MM-DD HH:mm:ss
+
         return `${date.toISOString().split('T')[0]}\n${date.toTimeString().split(' ')[0]}`
       })
     const temperatureData = dataMotor2.value.map((item) => parseFloat(item.temperature)).reverse()
     const vibrationData = dataMotor2.value.map((item) => parseFloat(item.vibration)).reverse()
     const speedData = dataMotor2.value.map((item) => parseFloat(item.speed)).reverse()
-    const airPressureData = dataMotor2.value.map((item) => parseFloat(item.airpressure)).reverse()
+    const arusData = dataMotor2.value.map((item) => parseFloat(item.arus)).reverse()
 
     chartMotor2.value.xAxis.data = timeLabels
     chartMotor2.value.series[0].data = temperatureData
     chartMotor2.value.series[1].data = vibrationData
     chartMotor2.value.series[2].data = speedData
-    chartMotor2.value.series[3].data = airPressureData
+    chartMotor2.value.series[3].data = arusData
   } catch (error) {
     console.error('Error fetching motor 2 data:', error)
   }
@@ -363,31 +363,31 @@ const fetchMotor2Data = async () => {
 const fetchMotor3Data = async () => {
   try {
     const response = await axios.get(
-      'https://be.robofuji.smartrobofuji.site/api/motor_conveyor_detail_motor3',
+      `${apiBaseUrl}/api/motor_conveyor_detail_motor3`,
     )
     dataMotor3.value = response.data.data
     const timeLabels = dataMotor3.value
-      .slice() // Membuat salinan array agar tidak merusak data asli
-      .reverse() // Membalik urutan data (dari terlama ke terbaru)
+      .slice()
+      .reverse()
       .map((item) => {
-        // Konversi ke objek Date
+
         const date = new Date(item.created_at)
         if (isNaN(date)) {
-          return 'Invalid Date' // Penanganan jika nilai tidak valid
+          return 'Invalid Date'
         }
-        // Format waktu menjadi: YYYY-MM-DD HH:mm:ss
+
         return `${date.toISOString().split('T')[0]}\n${date.toTimeString().split(' ')[0]}`
       })
     const temperatureData = dataMotor3.value.map((item) => parseFloat(item.temperature)).reverse()
     const vibrationData = dataMotor3.value.map((item) => parseFloat(item.vibration)).reverse()
     const speedData = dataMotor3.value.map((item) => parseFloat(item.speed)).reverse()
-    const airPressureData = dataMotor3.value.map((item) => parseFloat(item.airpressure)).reverse()
+    const arusData = dataMotor3.value.map((item) => parseFloat(item.arus)).reverse()
 
     chartMotor3.value.xAxis.data = timeLabels
     chartMotor3.value.series[0].data = temperatureData
     chartMotor3.value.series[1].data = vibrationData
     chartMotor3.value.series[2].data = speedData
-    chartMotor3.value.series[3].data = airPressureData
+    chartMotor3.value.series[3].data = arusData
   } catch (error) {
     console.error('Error fetching motor 3 data:', error)
   }
@@ -395,31 +395,31 @@ const fetchMotor3Data = async () => {
 const fetchMotor4Data = async () => {
   try {
     const response = await axios.get(
-      'https://be.robofuji.smartrobofuji.site/api/motor_conveyor_detail_motor4',
+      `${apiBaseUrl}/api/motor_conveyor_detail_motor4`,
     )
     dataMotor4.value = response.data.data
     const timeLabels = dataMotor4.value
-      .slice() // Membuat salinan array agar tidak merusak data asli
-      .reverse() // Membalik urutan data (dari terlama ke terbaru)
+      .slice()
+      .reverse()
       .map((item) => {
-        // Konversi ke objek Date
+
         const date = new Date(item.created_at)
         if (isNaN(date)) {
-          return 'Invalid Date' // Penanganan jika nilai tidak valid
+          return 'Invalid Date'
         }
-        // Format waktu menjadi: YYYY-MM-DD HH:mm:ss
+
         return `${date.toISOString().split('T')[0]}\n${date.toTimeString().split(' ')[0]}`
       })
     const temperatureData = dataMotor4.value.map((item) => parseFloat(item.temperature)).reverse()
     const vibrationData = dataMotor4.value.map((item) => parseFloat(item.vibration)).reverse()
     const speedData = dataMotor4.value.map((item) => parseFloat(item.speed)).reverse()
-    const airPressureData = dataMotor4.value.map((item) => parseFloat(item.airpressure)).reverse()
+    const arusData = dataMotor4.value.map((item) => parseFloat(item.arus)).reverse()
 
     chartMotor4.value.xAxis.data = timeLabels
     chartMotor4.value.series[0].data = temperatureData
     chartMotor4.value.series[1].data = vibrationData
     chartMotor4.value.series[2].data = speedData
-    chartMotor4.value.series[3].data = airPressureData
+    chartMotor4.value.series[3].data = arusData
   } catch (error) {
     console.error('Error fetching motor 4 data:', error)
   }
@@ -482,9 +482,9 @@ onUnmounted(() => {
           <div class="rpm">RPM</div>
         </div>
         <div class="parameter">
-          <div class="var">AIR PRESSURE</div>
-          <div class="value">{{ dataMotor1[0].airpressure }}</div>
-          <div class="unit">Bar</div>
+          <div class="var">ARUS</div>
+          <div class="value">{{ dataMotor1[0].arus }}</div>
+          <div class="unit">A</div>
         </div>
       </div>
       <div class="box" v-if="dataMotor2.length > 0 && dataMotor2[0]">
@@ -505,9 +505,9 @@ onUnmounted(() => {
           <div class="rpm">RPM</div>
         </div>
         <div class="parameter">
-          <div class="var">AIR PRESSURE</div>
-          <div class="value">{{ dataMotor2[0].airpressure }}</div>
-          <div class="unit">Bar</div>
+          <div class="var">ARUS</div>
+          <div class="value">{{ dataMotor2[0].arus }}</div>
+          <div class="unit">A</div>
         </div>
       </div>
       <div class="box" v-if="dataMotor3.length > 0 && dataMotor3[0]">
@@ -528,9 +528,9 @@ onUnmounted(() => {
           <div class="rpm">RPM</div>
         </div>
         <div class="parameter">
-          <div class="var">AIR PRESSURE</div>
-          <div class="value">{{ dataMotor3[0].airpressure }}</div>
-          <div class="unit">Bar</div>
+          <div class="var">ARUS</div>
+          <div class="value">{{ dataMotor3[0].arus }}</div>
+          <div class="unit">A</div>
         </div>
       </div>
       <div class="box" v-if="dataMotor4.length > 0 && dataMotor4[0]">
@@ -551,9 +551,9 @@ onUnmounted(() => {
           <div class="rpm">RPM</div>
         </div>
         <div class="parameter">
-          <div class="var">AIR PRESSURE</div>
-          <div class="value">{{ dataMotor4[0].airpressure }}</div>
-          <div class="unit">Bar</div>
+          <div class="var">ARUS</div>
+          <div class="value">{{ dataMotor4[0].arus }}</div>
+          <div class="unit">A</div>
         </div>
       </div>
     </div>
