@@ -10,8 +10,8 @@ const dataRoll = ref([])
 const dataArm = ref([])
 const dataSafetyCamera = ref(0)
 
-const normal = 50
-const warning = 30
+const normal = 80
+const warning = 70
 
 const fetchMotorData = async () => {
   try {
