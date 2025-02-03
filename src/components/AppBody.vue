@@ -10,8 +10,8 @@ const dataRoll = ref([])
 const dataArm = ref([])
 const dataSafetyCamera = ref(0)
 
-const normal = 80
-const warning = 70
+const normal = 70
+const warning = 60
 
 const fetchMotorData = async () => {
   try {
@@ -163,13 +163,13 @@ onUnmounted(() => {
           <div class="status-box-motor">
             <div class="status-motor normal">
               <span> NORMAL </span>
-              <div class="indicator" :class="{ blink: dataMotor.value > normal }"></div>
+              <div class="indicator" :class="{ blink: dataMotor.value >= normal }"></div>
             </div>
             <div class="status-motor warning">
               <span> WARNING </span>
               <div
                 class="indicator"
-                :class="{ blink: dataMotor.value > warning && dataMotor.value < normal }"
+                :class="{ blink: dataMotor.value >= warning && dataMotor.value < normal }"
               ></div>
             </div>
             <div class="status-motor fault">
@@ -195,13 +195,13 @@ onUnmounted(() => {
           <div class="status-box-motor">
             <div class="status-motor normal">
               <span> NORMAL </span>
-              <div class="indicator" :class="{ blink: dataSafConv.value > normal }"></div>
+              <div class="indicator" :class="{ blink: dataSafConv.value >= normal }"></div>
             </div>
             <div class="status-motor warning">
               <span> WARNING </span>
               <div
                 class="indicator"
-                :class="{ blink: dataSafConv.value > warning && dataSafConv.value < normal }"
+                :class="{ blink: dataSafConv.value >= warning && dataSafConv.value < normal }"
               ></div>
             </div>
             <div class="status-motor fault">
@@ -227,13 +227,13 @@ onUnmounted(() => {
           <div class="status-box-motor">
             <div class="status-motor normal">
               <span> NORMAL </span>
-              <div class="indicator" :class="{ blink: dataPallet.value > normal }"></div>
+              <div class="indicator" :class="{ blink: dataPallet.value >= normal }"></div>
             </div>
             <div class="status-motor warning">
               <span> WARNING </span>
               <div
                 class="indicator"
-                :class="{ blink: dataPallet.value > warning && dataPallet.value < normal }"
+                :class="{ blink: dataPallet.value >= warning && dataPallet.value < normal }"
               ></div>
             </div>
             <div class="status-motor fault">
@@ -261,13 +261,13 @@ onUnmounted(() => {
           <div class="status-box-motor">
             <div class="status-motor normal">
               <span> NORMAL </span>
-              <div class="indicator" :class="{ blink: dataRoll.value > normal }"></div>
+              <div class="indicator" :class="{ blink: dataRoll.value >= normal }"></div>
             </div>
             <div class="status-motor warning">
               <span> WARNING </span>
               <div
                 class="indicator"
-                :class="{ blink: dataRoll.value > warning && dataRoll.value < normal }"
+                :class="{ blink: dataRoll.value >= warning && dataRoll.value < normal }"
               ></div>
             </div>
             <div class="status-motor fault">
@@ -293,13 +293,13 @@ onUnmounted(() => {
           <div class="status-box-motor">
             <div class="status-motor normal">
               <span> NORMAL </span>
-              <div class="indicator" :class="{ blink: dataArm.value > normal }"></div>
+              <div class="indicator" :class="{ blink: dataArm.value >= normal }"></div>
             </div>
             <div class="status-motor warning">
               <span> WARNING </span>
               <div
                 class="indicator"
-                :class="{ blink: dataArm.value > warning && dataArm.value < normal }"
+                :class="{ blink: dataArm.value >= warning && dataArm.value < normal }"
               ></div>
             </div>
             <div class="status-motor fault">
