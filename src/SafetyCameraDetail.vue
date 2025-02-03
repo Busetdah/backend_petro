@@ -42,7 +42,7 @@
 
       <el-pagination
         background
-        layout="prev, pager, next"
+        layout="prev, next"
         :total="totalDetections"
         :page-size="pageSize"
         :current-page="currentPage"
