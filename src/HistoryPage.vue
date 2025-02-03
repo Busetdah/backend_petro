@@ -10,7 +10,11 @@
       </div>
       <div v-else>
         <el-table :data="historyData.data" border style="width: 100%">
-          <el-table-column label="No" width="50" type="index"></el-table-column>
+          <el-table-column label="No" width="50">
+          <template #default="scope">
+            {{ (historyData.current_page - 1) * historyData.per_page + scope.$index + 1 }}
+          </template>
+          </el-table-column>
           <el-table-column prop="source" label="Source" width="200"></el-table-column>
           <el-table-column prop="error" label="Keterangan" width="400"></el-table-column>
           <el-table-column label="Waktu" width="250">
@@ -21,13 +25,14 @@
         </el-table>
         <div class="pagination">
           <el-pagination
-            background
-            layout="prev, pager, next"
-            :current-page="historyData.current_page"
-            :page-size="historyData.per_page"
-            :total="historyData.total"
-            @current-change="handlePageChange">
-          </el-pagination>
+  background
+  layout="prev, next"
+  :current-page="historyData.current_page"
+  :page-size="historyData.per_page"
+  :total="historyData.total"
+  @current-change="handlePageChange">
+</el-pagination>
+
         </div>
       </div>
     </div>
