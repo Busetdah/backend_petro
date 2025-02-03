@@ -16,12 +16,12 @@
           </template>
           </el-table-column>
           <el-table-column prop="source" label="Source" width="200"></el-table-column>
-          <el-table-column prop="error" label="Keterangan" width="400"></el-table-column>
-          <el-table-column label="Waktu" width="250">
+          <el-table-column prop="error" label="Keterangan" width="600"></el-table-column>
+          <!-- <el-table-column label="Waktu" width="250">
             <template #default="scope">
               {{ formatDate(scope.row.created_at) }}
             </template>
-          </el-table-column>
+          </el-table-column> -->
         </el-table>
         <div class="pagination">
           <el-pagination
