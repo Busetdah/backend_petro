@@ -17,11 +17,11 @@
           </template>
         </el-table-column>
         <el-table-column prop="status" label="Status" width="80"></el-table-column>
-        <el-table-column label="Waktu" width="250">
+        <!-- <el-table-column label="Waktu" width="250">
           <template #default="scope">
             <span>{{ formatDate(scope.row.created_at) }}</span>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column label="Gambar">
           <template #default="scope">
             <template v-if="scope.row.gambar">
