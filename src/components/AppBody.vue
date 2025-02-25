@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import axios from 'axios'
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
 
 const dataMotor = ref([])
 const dataPallet = ref([])
@@ -9,9 +9,29 @@ const dataSafConv = ref([])
 const dataRoll = ref([])
 const dataArm = ref([])
 const dataSafetyCamera = ref(0)
+const alarmsData = ref([])
+const showPopup = ref(false)
 
 const normal = 70
 const warning = 60
+
+const fetchAlarmsData = async () => {
+  try {
+    const response = await axios.get(`${apiBaseUrl}/api/alarms`)
+    const data = response.data?.data ?? response.data
+
+    if (Array.isArray(data) && data.length > 0) {
+      alarmsData.value = data
+      showPopup.value = true
+    } else {
+      console.warn('Warning: API returned an empty or invalid data array.')
+      showPopup.value = false
+    }
+  } catch (error) {
+    console.error('Error fetching alarms data:', error)
+    showPopup.value = false
+  }
+}
 
 const fetchMotorData = async () => {
   try {
@@ -60,30 +80,31 @@ const fetchArmData = async () => {
 
 const fetchSafetyCameraData = async () => {
   try {
-    const response = await axios.get(`${apiBaseUrl}/api/safety_camera_detection`);
-    const data = response.data.data;
+    const response = await axios.get(`${apiBaseUrl}/api/safety_camera_detection`)
+    const data = response.data.data
 
     if (Array.isArray(data) && data.length > 0) {
-      const firstItem = data[0];
+      const firstItem = data[0]
 
       if (firstItem?.status !== undefined) {
-        dataSafetyCamera.value = firstItem.status;
+        dataSafetyCamera.value = firstItem.status
       } else {
-        console.warn("Warning: 'status' field is missing in firstItem.");
+        console.warn("Warning: 'status' field is missing in firstItem.")
       }
     } else {
-      console.warn("Warning: API returned an empty or invalid data array.");
+      console.warn('Warning: API returned an empty or invalid data array.')
     }
   } catch (error) {
-    console.error("Error fetching safety camera data:", error);
+    console.error('Error fetching safety camera data:', error)
   }
-};
+}
 let pollingIntervalMotor = null
 let pollingIntervalPallet = null
 let pollingIntervalSafConv = null
 let pollingIntervalRoll = null
 let pollingIntervalArm = null
 let pollingIntervalSafetyCamera = null
+let pollingIntervalAlarms = null
 
 onMounted(() => {
   fetchSafConvData()
@@ -92,7 +113,9 @@ onMounted(() => {
   fetchRollData()
   fetchArmData()
   fetchSafetyCameraData()
+  fetchAlarmsData()
 
+  pollingIntervalAlarms = setInterval(fetchAlarmsData, 1000)
   pollingIntervalMotor = setInterval(fetchMotorData, 1000)
   pollingIntervalPallet = setInterval(fetchPalletData, 1000)
   pollingIntervalSafConv = setInterval(fetchSafConvData, 1000)
@@ -120,6 +143,9 @@ onUnmounted(() => {
   if (pollingIntervalSafetyCamera) {
     clearInterval(pollingIntervalSafetyCamera)
   }
+  if (pollingIntervalAlarms) {
+    clearInterval(pollingIntervalAlarms)
+  }
 })
 </script>
 
@@ -130,6 +156,12 @@ onUnmounted(() => {
         <source src="../assets/background.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
+    </div>
+    <div v-if="showPopup" class="popup">
+      <div class="popup-content">
+        <span class="warning-icon">⚠️</span>
+        <span class="alarm-text">ALARM ACTIVE!</span>
+      </div>
     </div>
     <section>
       <div class="box">
@@ -321,6 +353,33 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+.popup {
+  position: fixed;
+  top: 17vh;
+  right: 20px;
+  background: red;
+  color: white;
+  padding: 15px;
+  border-radius: 5px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.popup-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.warning-icon {
+  font-size: 24px;
+}
+
+.alarm-text {
+  font-size: 18px;
+}
 .arrow-long-right {
   position: absolute;
   top: 50%;
