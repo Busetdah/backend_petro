@@ -156,170 +156,180 @@ onUnmounted(() => {
       </div>
     </section>
     <section>
-      <div v-if="dataMotor.value < warning" class="popup-alarm a-motor-conveyor">⚠️ ALARM ACTIVE</div>
       <div class="box-motor">
-        <div class="title-motor">Overview Motor Conveyor</div>
-        <hr />
-        <div class="content-motor">
-          <div class="status-box-motor">
-            <div class="status-motor normal">
-              <span> NORMAL </span>
-              <div class="indicator" :class="{ blink: dataMotor.value >= normal }"></div>
+        <div v-if="dataMotor.value < warning" class="popup-alarm">⚠️ ALARM ACTIVE</div>
+        <div class="motor-universal">
+          <div class="title-motor">Overview Motor Conveyor</div>
+          <hr />
+          <div class="content-motor">
+            <div class="status-box-motor">
+              <div class="status-motor normal">
+                <span> NORMAL </span>
+                <div class="indicator" :class="{ blink: dataMotor.value >= normal }"></div>
+              </div>
+              <div class="status-motor warning">
+                <span> WARNING </span>
+                <div
+                  class="indicator"
+                  :class="{ blink: dataMotor.value >= warning && dataMotor.value < normal }"
+                ></div>
+              </div>
+              <div class="status-motor fault">
+                <span> FAULT </span>
+                <div class="indicator" :class="{ blink: dataMotor.value < warning }"></div>
+              </div>
             </div>
-            <div class="status-motor warning">
-              <span> WARNING </span>
-              <div
-                class="indicator"
-                :class="{ blink: dataMotor.value >= warning && dataMotor.value < normal }"
-              ></div>
-            </div>
-            <div class="status-motor fault">
-              <span> FAULT </span>
-              <div class="indicator" :class="{ blink: dataMotor.value < warning }"></div>
+            <div class="camera-box-motor">
+              <div class="camera-motor">
+                <span>{{ dataMotor.value }}%</span>
+              </div>
+              <router-link class="detail-button-motor" to="/detailmotorconveyor">DETAIL</router-link>
             </div>
           </div>
-          <div class="camera-box-motor">
-            <div class="camera-motor">
-              <span>{{ dataMotor.value }}%</span>
-            </div>
-            <router-link class="detail-button-motor" to="/detailmotorconveyor">DETAIL</router-link>
-          </div>
+          <div class="arrow-long-right"></div>
         </div>
-        <div class="arrow-long-right"></div>
       </div>
     </section>
     <section>
-      <div v-if="dataSafConv.value < warning" class="popup-alarm a-safety-conveyor">⚠️ ALARM ACTIVE</div>
       <div class="box-motor-p">
-        <div class="title-motor">Overview Safety Conveyor</div>
-        <hr />
-        <div class="content-motor">
-          <div class="status-box-motor">
-            <div class="status-motor normal">
-              <span> NORMAL </span>
-              <div class="indicator" :class="{ blink: dataSafConv.value >= normal }"></div>
+        <div v-if="dataSafConv.value < warning" class="popup-alarm">⚠️ ALARM ACTIVE</div>
+        <div class="motor-universal">
+          <div class="title-motor">Overview Safety Conveyor</div>
+          <hr />
+          <div class="content-motor">
+            <div class="status-box-motor">
+              <div class="status-motor normal">
+                <span> NORMAL </span>
+                <div class="indicator" :class="{ blink: dataSafConv.value >= normal }"></div>
+              </div>
+              <div class="status-motor warning">
+                <span> WARNING </span>
+                <div
+                  class="indicator"
+                  :class="{ blink: dataSafConv.value >= warning && dataSafConv.value < normal }"
+                ></div>
+              </div>
+              <div class="status-motor fault">
+                <span> FAULT </span>
+                <div class="indicator" :class="{ blink: dataSafConv.value < warning }"></div>
+              </div>
             </div>
-            <div class="status-motor warning">
-              <span> WARNING </span>
-              <div
-                class="indicator"
-                :class="{ blink: dataSafConv.value >= warning && dataSafConv.value < normal }"
-              ></div>
-            </div>
-            <div class="status-motor fault">
-              <span> FAULT </span>
-              <div class="indicator" :class="{ blink: dataSafConv.value < warning }"></div>
+            <div class="camera-box-motor">
+              <div class="camera-motor">
+                <span>{{ dataSafConv.value }}%</span>
+              </div>
+              <router-link class="detail-button-motor" to="/detailsafetyconveyor">DETAIL</router-link>
             </div>
           </div>
-          <div class="camera-box-motor">
-            <div class="camera-motor">
-              <span>{{ dataSafConv.value }}%</span>
-            </div>
-            <router-link class="detail-button-motor" to="/detailsafetyconveyor">DETAIL</router-link>
-          </div>
+          <div class="arrow-long-left"></div>
         </div>
-        <div class="arrow-long-left"></div>
       </div>
     </section>
     <section>
-      <div v-if="dataPallet.value < warning" class="popup-alarm a-overview-pallet">⚠️ ALARM ACTIVE</div>
       <div class="box-motor-s">
-        <div class="title-motor">Overview Pallet Dispenser</div>
-        <hr />
-        <div class="content-motor">
-          <div class="status-box-motor">
-            <div class="status-motor normal">
-              <span> NORMAL </span>
-              <div class="indicator" :class="{ blink: dataPallet.value >= normal }"></div>
+        <div v-if="dataPallet.value < warning" class="popup-alarm">⚠️ ALARM ACTIVE</div>
+        <div class="motor-universal">
+          <div class="title-motor">Overview Pallet Dispenser</div>
+          <hr />
+          <div class="content-motor">
+            <div class="status-box-motor">
+              <div class="status-motor normal">
+                <span> NORMAL </span>
+                <div class="indicator" :class="{ blink: dataPallet.value >= normal }"></div>
+              </div>
+              <div class="status-motor warning">
+                <span> WARNING </span>
+                <div
+                  class="indicator"
+                  :class="{ blink: dataPallet.value >= warning && dataPallet.value < normal }"
+                ></div>
+              </div>
+              <div class="status-motor fault">
+                <span> FAULT </span>
+                <div class="indicator" :class="{ blink: dataPallet.value < warning }"></div>
+              </div>
             </div>
-            <div class="status-motor warning">
-              <span> WARNING </span>
-              <div
-                class="indicator"
-                :class="{ blink: dataPallet.value >= warning && dataPallet.value < normal }"
-              ></div>
-            </div>
-            <div class="status-motor fault">
-              <span> FAULT </span>
-              <div class="indicator" :class="{ blink: dataPallet.value < warning }"></div>
+            <div class="camera-box-motor">
+              <div class="camera-motor">
+                <span>{{ dataPallet.value }}%</span>
+              </div>
+              <router-link class="detail-button-motor" to="/detailpalletedispenser"
+                >DETAIL</router-link
+              >
             </div>
           </div>
-          <div class="camera-box-motor">
-            <div class="camera-motor">
-              <span>{{ dataPallet.value }}%</span>
-            </div>
-            <router-link class="detail-button-motor" to="/detailpalletedispenser"
-              >DETAIL</router-link
-            >
-          </div>
+          <div class="arrow-long-right"></div>
         </div>
-        <div class="arrow-long-right"></div>
       </div>
     </section>
     <section>
-      <div v-if="dataRoll.value < warning" class="popup-alarm a-roll">⚠️ ALARM ACTIVE</div>
       <div class="box-motor-r">
-        <div class="title-motor">Overview Roll</div>
-        <hr />
-        <div class="content-motor">
-          <div class="status-box-motor">
-            <div class="status-motor normal">
-              <span> NORMAL </span>
-              <div class="indicator" :class="{ blink: dataRoll.value >= normal }"></div>
+        <div v-if="dataRoll.value < warning" class="popup-alarm">⚠️ ALARM ACTIVE</div>
+        <div class="motor-universal">
+          <div class="title-motor">Overview Roll</div>
+          <hr />
+          <div class="content-motor">
+            <div class="status-box-motor">
+              <div class="status-motor normal">
+                <span> NORMAL </span>
+                <div class="indicator" :class="{ blink: dataRoll.value >= normal }"></div>
+              </div>
+              <div class="status-motor warning">
+                <span> WARNING </span>
+                <div
+                  class="indicator"
+                  :class="{ blink: dataRoll.value >= warning && dataRoll.value < normal }"
+                ></div>
+              </div>
+              <div class="status-motor fault">
+                <span> FAULT </span>
+                <div class="indicator" :class="{ blink: dataRoll.value < warning }"></div>
+              </div>
             </div>
-            <div class="status-motor warning">
-              <span> WARNING </span>
-              <div
-                class="indicator"
-                :class="{ blink: dataRoll.value >= warning && dataRoll.value < normal }"
-              ></div>
-            </div>
-            <div class="status-motor fault">
-              <span> FAULT </span>
-              <div class="indicator" :class="{ blink: dataRoll.value < warning }"></div>
+            <div class="camera-box-motor">
+              <div class="camera-motor">
+                <span>{{ dataRoll.value }}%</span>
+              </div>
+              <router-link class="detail-button-motor" to="/detailroll">DETAIL</router-link>
             </div>
           </div>
-          <div class="camera-box-motor">
-            <div class="camera-motor">
-              <span>{{ dataRoll.value }}%</span>
-            </div>
-            <router-link class="detail-button-motor" to="/detailroll">DETAIL</router-link>
-          </div>
+          <div class="arrow-long-left"></div>
         </div>
-        <div class="arrow-long-left"></div>
       </div>
     </section>
     <section>
-      <div v-if="dataArm.value < warning" class="popup-alarm a-arm">⚠️ ALARM ACTIVE</div>
       <div class="box-motor-a">
-        <div class="title-motor">Overview Arm Robot</div>
-        <hr />
-        <div class="content-motor">
-          <div class="status-box-motor">
-            <div class="status-motor normal">
-              <span> NORMAL </span>
-              <div class="indicator" :class="{ blink: dataArm.value >= normal }"></div>
+        <div v-if="dataArm.value < warning" class="popup-alarm">⚠️ ALARM ACTIVE</div>
+        <div class="motor-universal">
+          <div class="title-motor">Overview Arm Robot</div>
+          <hr />
+          <div class="content-motor">
+            <div class="status-box-motor">
+              <div class="status-motor normal">
+                <span> NORMAL </span>
+                <div class="indicator" :class="{ blink: dataArm.value >= normal }"></div>
+              </div>
+              <div class="status-motor warning">
+                <span> WARNING </span>
+                <div
+                  class="indicator"
+                  :class="{ blink: dataArm.value >= warning && dataArm.value < normal }"
+                ></div>
+              </div>
+              <div class="status-motor fault">
+                <span> FAULT </span>
+                <div class="indicator" :class="{ blink: dataArm.value < warning }"></div>
+              </div>
             </div>
-            <div class="status-motor warning">
-              <span> WARNING </span>
-              <div
-                class="indicator"
-                :class="{ blink: dataArm.value >= warning && dataArm.value < normal }"
-              ></div>
-            </div>
-            <div class="status-motor fault">
-              <span> FAULT </span>
-              <div class="indicator" :class="{ blink: dataArm.value < warning }"></div>
+            <div class="camera-box-motor">
+              <div class="camera-motor">
+                <span>{{ dataArm.value }}%</span>
+              </div>
+              <router-link class="detail-button-motor" to="/detailarmrobot">DETAIL</router-link>
             </div>
           </div>
-          <div class="camera-box-motor">
-            <div class="camera-motor">
-              <span>{{ dataArm.value }}%</span>
-            </div>
-            <router-link class="detail-button-motor" to="/detailarmrobot">DETAIL</router-link>
-          </div>
+          <div class="arrow-long-left"></div>
         </div>
-        <div class="arrow-long-left"></div>
       </div>
     </section>
   </section>
@@ -367,10 +377,10 @@ onUnmounted(() => {
 }
 
 .a-arm{
-  position: absolute;
+  /* position: absolute;
   top: 25.5vh;
   left: 51vw;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); */
 }
 
 .arrow-long-right {
@@ -541,14 +551,6 @@ hr {
   top: 53vh;
   left: 4vw;
   transform: translate(-50%, -50%);
-  background-color: #0080ff;
-  border: 2px solid #000000;
-  padding: 2px;
-  width: 11rem;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 .title-motor {
   font-size: 10px;
@@ -606,52 +608,30 @@ hr {
   top: 75vh;
   left: 44vw;
   transform: translate(-50%, -50%);
-  background-color: #0080ff;
-  border: 2px solid #000000;
-  padding: 2px;
-  width: 11rem;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 .box-motor-s {
   position: absolute;
   top: 75vh;
   left: 15vw;
   transform: translate(-50%, -50%);
-  background-color: #0080ff;
-  border: 2px solid #000000;
-  padding: 2px;
-  width: 11rem;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 .box-motor-r {
   position: absolute;
   top: 56vh;
   left: 54vw;
   transform: translate(-50%, -50%);
-  background-color: #0080ff;
-  border: 2px solid #000000;
-  padding: 2px;
-  width: 11rem;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 .box-motor-a {
   position: absolute;
   top: 35vh;
   left: 51vw;
   transform: translate(-50%, -50%);
+}
+
+.motor-universal{
   background-color: #0080ff;
   border: 2px solid #000000;
   padding: 2px;
-  width: 11rem;
   text-align: center;
   display: flex;
   flex-direction: column;
