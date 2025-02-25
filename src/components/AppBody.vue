@@ -9,6 +9,7 @@ const dataSafConv = ref([])
 const dataRoll = ref([])
 const dataArm = ref([])
 const dataSafetyCamera = ref(0)
+const alarms = ref([]);
 
 const normal = 70
 const warning = 60
@@ -78,12 +79,29 @@ const fetchSafetyCameraData = async () => {
     console.error('Error fetching safety camera data:', error)
   }
 }
+
+const fetchAlarms = async () => {
+  try {
+    const response = await axios.get(`${apiBaseUrl}/api/alarms`);
+    if (response.status === 200) {
+      alarms.value = response.data;
+    }
+  } catch (error) {
+    console.error("Gagal mengambil data alarm:", error);
+  }
+};
+
+const isAlarmActive = (parentName) => {
+  return alarms.value.some(alarm => alarm.parent === parentName);
+};
+
 let pollingIntervalMotor = null
 let pollingIntervalPallet = null
 let pollingIntervalSafConv = null
 let pollingIntervalRoll = null
 let pollingIntervalArm = null
 let pollingIntervalSafetyCamera = null
+let pollingIntervalAlarms = null;
 
 onMounted(() => {
   fetchSafConvData()
@@ -92,6 +110,7 @@ onMounted(() => {
   fetchRollData()
   fetchArmData()
   fetchSafetyCameraData()
+  fetchAlarms()
 
   pollingIntervalMotor = setInterval(fetchMotorData, 1000)
   pollingIntervalPallet = setInterval(fetchPalletData, 1000)
@@ -99,6 +118,7 @@ onMounted(() => {
   pollingIntervalRoll = setInterval(fetchRollData, 1000)
   pollingIntervalArm = setInterval(fetchArmData, 1000)
   pollingIntervalSafetyCamera = setInterval(fetchSafetyCameraData, 1000)
+  pollingIntervalAlarms = setInterval(fetchAlarms, 1000);
 })
 
 onUnmounted(() => {
@@ -119,6 +139,9 @@ onUnmounted(() => {
   }
   if (pollingIntervalSafetyCamera) {
     clearInterval(pollingIntervalSafetyCamera)
+  }
+  if (pollingIntervalAlarms) {
+    clearInterval(pollingIntervalAlarms)
   }
 })
 </script>
@@ -157,7 +180,7 @@ onUnmounted(() => {
     </section>
     <section>
       <div class="box-motor">
-        <div v-if="dataMotor.value < warning" class="popup-alarm">⚠️ ALARM ACTIVE</div>
+        <div v-if="isAlarmActive('Motor Conveyor')" class="popup-alarm">⚠️ ALARM ACTIVE</div>
         <div class="motor-universal">
           <div class="title-motor">Overview Motor Conveyor</div>
           <hr />
@@ -192,7 +215,7 @@ onUnmounted(() => {
     </section>
     <section>
       <div class="box-motor-p">
-        <div v-if="dataSafConv.value < warning" class="popup-alarm">⚠️ ALARM ACTIVE</div>
+        <div v-if="isAlarmActive('Safety Conveyor')" class="popup-alarm">⚠️ ALARM ACTIVE</div>
         <div class="motor-universal">
           <div class="title-motor">Overview Safety Conveyor</div>
           <hr />
@@ -227,7 +250,7 @@ onUnmounted(() => {
     </section>
     <section>
       <div class="box-motor-s">
-        <div v-if="dataPallet.value < warning" class="popup-alarm">⚠️ ALARM ACTIVE</div>
+        <div v-if="isAlarmActive('Pallet Dispenser')" class="popup-alarm">⚠️ ALARM ACTIVE</div>
         <div class="motor-universal">
           <div class="title-motor">Overview Pallet Dispenser</div>
           <hr />
@@ -264,7 +287,7 @@ onUnmounted(() => {
     </section>
     <section>
       <div class="box-motor-r">
-        <div v-if="dataRoll.value < warning" class="popup-alarm">⚠️ ALARM ACTIVE</div>
+        <div v-if="isAlarmActive('Roll')" class="popup-alarm">⚠️ ALARM ACTIVE</div>
         <div class="motor-universal">
           <div class="title-motor">Overview Roll</div>
           <hr />
@@ -299,7 +322,7 @@ onUnmounted(() => {
     </section>
     <section>
       <div class="box-motor-a">
-        <div v-if="dataArm.value < warning" class="popup-alarm">⚠️ ALARM ACTIVE</div>
+        <div v-if="isAlarmActive('Arm Robot')" class="popup-alarm">⚠️ ALARM ACTIVE</div>
         <div class="motor-universal">
           <div class="title-motor">Overview Arm Robot</div>
           <hr />
