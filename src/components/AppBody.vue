@@ -9,29 +9,9 @@ const dataSafConv = ref([])
 const dataRoll = ref([])
 const dataArm = ref([])
 const dataSafetyCamera = ref(0)
-const alarmsData = ref([])
-const showPopup = ref(false)
 
 const normal = 70
 const warning = 60
-
-const fetchAlarmsData = async () => {
-  try {
-    const response = await axios.get(`${apiBaseUrl}/api/alarms`)
-    const data = response.data?.data ?? response.data
-
-    if (Array.isArray(data) && data.length > 0) {
-      alarmsData.value = data
-      showPopup.value = true
-    } else {
-      console.warn('Warning: API returned an empty or invalid data array.')
-      showPopup.value = false
-    }
-  } catch (error) {
-    console.error('Error fetching alarms data:', error)
-    showPopup.value = false
-  }
-}
 
 const fetchMotorData = async () => {
   try {
@@ -104,7 +84,6 @@ let pollingIntervalSafConv = null
 let pollingIntervalRoll = null
 let pollingIntervalArm = null
 let pollingIntervalSafetyCamera = null
-let pollingIntervalAlarms = null
 
 onMounted(() => {
   fetchSafConvData()
@@ -113,9 +92,7 @@ onMounted(() => {
   fetchRollData()
   fetchArmData()
   fetchSafetyCameraData()
-  fetchAlarmsData()
 
-  pollingIntervalAlarms = setInterval(fetchAlarmsData, 1000)
   pollingIntervalMotor = setInterval(fetchMotorData, 1000)
   pollingIntervalPallet = setInterval(fetchPalletData, 1000)
   pollingIntervalSafConv = setInterval(fetchSafConvData, 1000)
@@ -143,9 +120,6 @@ onUnmounted(() => {
   if (pollingIntervalSafetyCamera) {
     clearInterval(pollingIntervalSafetyCamera)
   }
-  if (pollingIntervalAlarms) {
-    clearInterval(pollingIntervalAlarms)
-  }
 })
 </script>
 
@@ -156,12 +130,6 @@ onUnmounted(() => {
         <source src="../assets/background.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
-    </div>
-    <div v-if="showPopup" class="popup">
-      <div class="popup-content">
-        <span class="warning-icon">⚠️</span>
-        <span class="alarm-text">ALARM ACTIVE!</span>
-      </div>
     </div>
     <section>
       <div class="box">
@@ -188,6 +156,7 @@ onUnmounted(() => {
       </div>
     </section>
     <section>
+      <div v-if="dataMotor.value < warning" class="popup-alarm a-motor-conveyor">⚠️ ALARM ACTIVE</div>
       <div class="box-motor">
         <div class="title-motor">Overview Motor Conveyor</div>
         <hr />
@@ -220,6 +189,7 @@ onUnmounted(() => {
       </div>
     </section>
     <section>
+      <div v-if="dataSafConv.value < warning" class="popup-alarm a-safety-conveyor">⚠️ ALARM ACTIVE</div>
       <div class="box-motor-p">
         <div class="title-motor">Overview Safety Conveyor</div>
         <hr />
@@ -252,6 +222,7 @@ onUnmounted(() => {
       </div>
     </section>
     <section>
+      <div v-if="dataPallet.value < warning" class="popup-alarm a-overview-pallet">⚠️ ALARM ACTIVE</div>
       <div class="box-motor-s">
         <div class="title-motor">Overview Pallet Dispenser</div>
         <hr />
@@ -286,6 +257,7 @@ onUnmounted(() => {
       </div>
     </section>
     <section>
+      <div v-if="dataRoll.value < warning" class="popup-alarm a-roll">⚠️ ALARM ACTIVE</div>
       <div class="box-motor-r">
         <div class="title-motor">Overview Roll</div>
         <hr />
@@ -318,6 +290,7 @@ onUnmounted(() => {
       </div>
     </section>
     <section>
+      <div v-if="dataArm.value < warning" class="popup-alarm a-arm">⚠️ ALARM ACTIVE</div>
       <div class="box-motor-a">
         <div class="title-motor">Overview Arm Robot</div>
         <hr />
@@ -353,33 +326,53 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-.popup {
-  position: fixed;
-  top: 17vh;
-  right: 20px;
-  background: red;
+.popup-alarm {
+  text-align: center;
+  background-color: red;
   color: white;
-  padding: 15px;
-  border-radius: 5px;
+  padding: 5px 3px;
+  border-radius: 3px;
+  width: 11rem;
   font-weight: bold;
-  display: flex;
-  align-items: center;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  font-size: 14px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
-.popup-content {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.a-motor-conveyor{
+  position: absolute;
+  top: 43.5vh;
+  left: 4vw;
+  transform: translate(-50%, -50%);
 }
 
-.warning-icon {
-  font-size: 24px;
+.a-safety-conveyor{
+  position: absolute;
+  top: 65.5vh;
+  left: 44vw;
+  transform: translate(-50%, -50%);
 }
 
-.alarm-text {
-  font-size: 18px;
+.a-overview-pallet{
+  position: absolute;
+  top: 65.5vh;
+  left: 15vw;
+  transform: translate(-50%, -50%);
 }
+
+.a-roll{
+  position: absolute;
+  top: 46.5vh;
+  left: 54vw;
+  transform: translate(-50%, -50%);
+}
+
+.a-arm{
+  position: absolute;
+  top: 25.5vh;
+  left: 51vw;
+  transform: translate(-50%, -50%);
+}
+
 .arrow-long-right {
   position: absolute;
   top: 50%;
